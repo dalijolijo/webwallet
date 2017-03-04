@@ -130,7 +130,7 @@ $(document).ready(function() {
 				tx2.broadcast(function(data){
 					if($.parseJSON(data).txid) {
 					//if($(data).find("txid").text()=="1"){
-						$("#walletSendConfirmStatus").removeClass('hidden').addClass('alert-success').html("txid: "+$.parseJSON(data).txid);
+						$("#walletSendConfirmStatus").removeClass('hidden').addClass('alert-success').html("The transaction was sent successfully.  Your transaction id is:  "+$.parseJSON(data).txid);
 					} else {
 						$("#walletSendConfirmStatus").removeClass('hidden').addClass('alert-danger').html(unescape($(data).find("response").text()).replace(/\+/g,' '));
 						$("#walletSendFailTransaction").removeClass('hidden');
