@@ -1175,10 +1175,10 @@ $(document).ready(function() {
             url: "http://groestlsight.groestlcoin.org/api/tx/send",//+coinjs.apikey,
             data: "rawtx="+$("#rawTransaction").val(),
             dataType: "application/x-www-form-urlencoded",
-            error: function(data) {
-                var obj = $.parseJSON(data.responseText);
+            error: function(data, status, error) {
+                var obj = data.responseText;
                 var r = ' ';
-                r += (obj.data.rawtx) ? obj.data.rawtx : '';
+                r += (data.responseText.length) ? data.responseText : '';
                 r = (r!=' ') ? r : ' Failed to broadcast'; // build response
                 $("#rawTransactionStatus").addClass('alert-danger').removeClass('alert-success').removeClass("hidden").html(r).prepend('<span class="glyphicon glyphicon-exclamation-sign"></span>');
             },
