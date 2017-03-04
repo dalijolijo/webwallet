@@ -1,13 +1,14 @@
 coinbin
 =======
 
-A Open Source Browser Based Bitcoin Wallet. Version 1.2 beta by OutCast3k
+A Open Source Browser Based Groestlcoin Wallet. Version 1.2 beta
 
-Live version available at http://coinb.in/ or http://4zpinp6gdkjfplhk.onion
+Live version available at http://groestlcoin.org/webwallet
 
-Github URL: https://github.com/OutCast3k/coinbin/
+Github URL: https://github.com/Groestlcoin/webwallet
+(a fork of https://github.com/OutCast3k/coinbin/)
 
-Coinb.in supports a number of key features such as: 
+Webwallet supports a number of key features such as: 
 
 - Offline Compressed & uncompressed Address creation.
 - Offline Multisignature Address creation.
@@ -22,11 +23,6 @@ Coinb.in supports a number of key features such as:
 - Add custom data to transactions with the use of OP_RETURN.
 - Support current Dark Wallet Stealth Address structure (as of version Alpha 7) for outputs.
 - Brain wallet support.
-- Compatible with bitcoin-qt
-- An offical .onion address for tor users.
+- Compatible with Groestlcoin Core
 - Offline qrcode creator and scanning tool
 - HD (bip32) support
-- Supports altcoins such as litecoin
-- Replace by fee (RBF) Support
-
-Donate to 1CWHWkTWaq1K5hevimJia3cyinQsrgXUvg to see more development!

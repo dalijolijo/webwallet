@@ -10,18 +10,18 @@
 	var coinjs = window.coinjs = function () { };
 
 	/* public vars */
-	coinjs.pub = 0x00;
+	coinjs.pub = 0x24;
 	coinjs.priv = 0x80;
 	coinjs.multisig = 0x05;
 	coinjs.hdkey = {'prv':0x0488ade4, 'pub':0x0488b21e};
-
+        coinjs.apikey = "d47da926b82e";
 	coinjs.compressed = false;
 
 	/* other vars */
-	coinjs.developer = '1CWHWkTWaq1K5hevimJia3cyinQsrgXUvg'; // bitcoin
+	coinjs.developer = 'FihxBM45cSZe55K9uW6YELcvzCz3XfaAm2'; // bitcoin
 
 	/* bit(coinb.in) api vars */
-	coinjs.host = ('https:'==document.location.protocol?'https://':'http://')+'coinb.in/api/';
+	coinjs.host = 'http://groestlsight.groestlcoin.org/api/';
 	coinjs.uid = '1';
 	coinjs.key = '12345678901234567890123456789012';
 
@@ -101,7 +101,7 @@
 	coinjs.pubkey2address = function(h){
 		var r = ripemd160(Crypto.SHA256(Crypto.util.hexToBytes(h), {asBytes: true}));
 		r.unshift(coinjs.pub);
-		var hash = Crypto.SHA256(Crypto.SHA256(r, {asBytes: true}), {asBytes: true});
+		var hash = Crypto.util.hexToBytes(Module.ccall('GroestlCoinHash', 'string', ['string'], [Crypto.util.bytesToHex(r)]));//Crypto.SHA256(Crypto.SHA256(r, {asBytes: true}), {asBytes: true});
 		var checksum = hash.slice(0, 4);
 		return coinjs.base58encode(r.concat(checksum));
 	}
@@ -111,7 +111,7 @@
 		var x = Crypto.util.hexToBytes(h);
 		x.unshift(coinjs.pub);
 		var r = x;
-		r = Crypto.SHA256(Crypto.SHA256(r,{asBytes: true}),{asBytes: true});
+		r = Crypto.util.hexToBytes(Module.ccall('GroestlCoinHash', 'string', ['string'], [Crypto.util.bytesToHex(r)]));//Crypto.SHA256(Crypto.SHA256(r,{asBytes: true}),{asBytes: true});
 		var checksum = r.slice(0,4);
 		return coinjs.base58encode(x.concat(checksum));
 	}
@@ -128,7 +128,7 @@
 		var x = ripemd160(Crypto.SHA256(s.buffer, {asBytes: true}), {asBytes: true});
 		x.unshift(coinjs.multisig);
 		var r = x;
-		r = Crypto.SHA256(Crypto.SHA256(r, {asBytes: true}), {asBytes: true});
+		r = Crypto.util.hexToBytes(Module.ccall('GroestlCoinHash', 'string', ['string'], [Crypto.util.bytesToHex(r)]));//Crypto.SHA256(Crypto.SHA256(r, {asBytes: true}), {asBytes: true});
 		var checksum = r.slice(0,4);
 		var redeemScript = Crypto.util.bytesToHex(s.buffer);
 		var address = coinjs.base58encode(x.concat(checksum));
@@ -148,7 +148,7 @@
 		}
 
 		var s = coinjs.script();
-		s.writeBytes(coinjs.numToByteArray(checklocktimeverify));
+		s.writeBytes(Crypto.util.hexToBytes(checklocktimeverify.toString(16)).reverse());
 		s.writeOp(177);//OP_CHECKLOCKTIMEVERIFY
 		s.writeOp(117);//OP_DROP
 		s.writeBytes(Crypto.util.hexToBytes(pubkey));
@@ -157,7 +157,7 @@
 		var x = ripemd160(Crypto.SHA256(s.buffer, {asBytes: true}), {asBytes: true});
 		x.unshift(coinjs.multisig);
 		var r = x;
-		r = Crypto.SHA256(Crypto.SHA256(r, {asBytes: true}), {asBytes: true});
+		r = Crypto.util.hexToBytes(Module.ccall('GroestlCoinHash', 'string', ['string'], [Crypto.util.bytesToHex(r)]));//Crypto.SHA256(Crypto.SHA256(r, {asBytes: true}), {asBytes: true});
 		var checksum = r.slice(0,4);
 		var redeemScript = Crypto.util.bytesToHex(s.buffer);
 		var address = coinjs.base58encode(x.concat(checksum));
@@ -174,7 +174,7 @@
 		}
 
 		r.unshift(coinjs.priv);
-		var hash = Crypto.SHA256(Crypto.SHA256(r, {asBytes: true}), {asBytes: true});
+		var hash = Crypto.util.hexToBytes(Module.ccall('GroestlCoinHash', 'string', ['string'], [Crypto.util.bytesToHex(r)]));//Crypto.SHA256(Crypto.SHA256(r, {asBytes: true}), {asBytes: true});
 		var checksum = hash.slice(0, 4);
 
 		return coinjs.base58encode(r.concat(checksum));
@@ -215,7 +215,9 @@
 			var bytes = coinjs.base58decode(addr);
 			var front = bytes.slice(0, bytes.length-4);
 			var back = bytes.slice(bytes.length-4);
-			var checksum = Crypto.SHA256(Crypto.SHA256(front, {asBytes: true}), {asBytes: true}).slice(0, 4);
+			var checksum = Crypto.util.hexToBytes(Module.ccall('GroestlCoinHash', 'string', ['string'], [Crypto.util.bytesToHex(front)])).slice(0,4);//Crypto.SHA256(Crypto.SHA256(front, {asBytes: true}), {asBytes: true}).slice(0, 4);
+			console.log('checksum:'+checksum);
+			console.log('back:'+back);
 			if (checksum+"" == back+"") {
 
 				var o = {};
@@ -273,7 +275,8 @@
 
 	/* retreive the balance from a given address */
 	coinjs.addressBalance = function(address, callback){
-		coinjs.ajax(coinjs.host+'?uid='+coinjs.uid+'&key='+coinjs.key+'&setmodule=addresses&request=bal&address='+address+'&r='+Math.random(), callback, "GET");
+		coinjs.ajax(coinjs.host+'addr/'+address+'/balance', callback, "GET");
+		//coinjs.ajax(coinjs.host+'?uid='+coinjs.uid+'&key='+coinjs.key+'&setmodule=addresses&request=bal&address='+address+'&r='+Math.random(), callback, "GET");
 	}
 
 	/* decompress an compressed public key */
@@ -426,7 +429,7 @@
 				var decoded = coinjs.base58decode(data);
 				if(decoded.length == 82){
 					var checksum = decoded.slice(78, 82);
-					var hash = Crypto.SHA256(Crypto.SHA256(decoded.slice(0, 78), { asBytes: true } ), { asBytes: true } );
+					var hash = Crypto.util.hexToBytes(Module.ccall('GroestlCoinHash', 'string', ['string'], [Crypto.util.bytesToHex(decoded.slice(0,78))]));//Crypto.SHA256(Crypto.SHA256(decoded.slice(0, 78), { asBytes: true } ), { asBytes: true } );
 					if(checksum[0]==hash[0] && checksum[1]==hash[1] && checksum[2]==hash[2] && checksum[3]==hash[3]){
 						bytes = decoded.slice(0, 78);
 					}
@@ -851,7 +854,7 @@
 
 		/* list unspent transactions */
 		r.listUnspent = function(address, callback) {
-			coinjs.ajax(coinjs.host+'?uid='+coinjs.uid+'&key='+coinjs.key+'&setmodule=addresses&request=unspent&address='+address+'&r='+Math.random(), callback, "GET");
+			coinjs.ajax(coinjs.host+'addr/'+address+'/utxo', callback, "GET");
 		}
 
 		/* add unspent to transaction */
@@ -907,7 +910,7 @@
 		/* broadcast a transaction */
 		r.broadcast = function(callback, txhex){
 			var tx = txhex || this.serialize();
-			coinjs.ajax(coinjs.host+'?uid='+coinjs.uid+'&key='+coinjs.key+'&setmodule=bitcoin&request=sendrawtransaction&rawtx='+tx+'&r='+Math.random(), callback, "GET");
+			coinjs.ajax(coinjs.host+'tx/send', callback, "POST", 'rawtx='+tx);
 		}
 
 		/* generate the transaction hash to sign from a transaction input */
@@ -982,8 +985,8 @@
 
 				var buffer = Crypto.util.hexToBytes(clone.serialize());
 				buffer = buffer.concat(coinjs.numToBytes(parseInt(shType), 4));
-				var hash = Crypto.SHA256(buffer, {asBytes: true});
-				var r = Crypto.util.bytesToHex(Crypto.SHA256(hash, {asBytes: true}));
+				//var hash = Crypto.SHA256(buffer, {asBytes: true});
+				var r = Crypto.util.bytesToHex(Crypto.SHA256(buffer, {asBytes: true}));
 				return r;
 			} else {
 				return false;
