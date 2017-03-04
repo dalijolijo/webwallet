@@ -1174,7 +1174,7 @@ $(document).ready(function() {
             type: "POST",
             url: "http://groestlsight.groestlcoin.org/api/tx/send",//+coinjs.apikey,
             data: "rawtx="+$("#rawTransaction").val(),
-            dataType: "application/x-www-form-urlencoded",
+            dataType: "json",
             error: function(data, status, error) {
                 var obj = data.responseText;
                 var r = ' ';
@@ -1183,8 +1183,8 @@ $(document).ready(function() {
                 $("#rawTransactionStatus").addClass('alert-danger').removeClass('alert-success').removeClass("hidden").html(r).prepend('<span class="glyphicon glyphicon-exclamation-sign"></span>');
             },
             success: function(data) {
-                var obj = $.parseJSON(data.responseText);
-                if(obj.status && obj.txid){
+                //var obj = $.parseJSON(data.responseText);
+                if(data.txid){
                     $("#rawTransactionStatus").addClass('alert-success').removeClass('alert-danger').removeClass("hidden").html(' Txid: '+obj.txid);
                 } else {
                     $("#rawTransactionStatus").addClass('alert-danger').removeClass('alert-success').removeClass("hidden").html(' Unexpected error, please try again').prepend('<span class="glyphicon glyphicon-exclamation-sign"></span>');
