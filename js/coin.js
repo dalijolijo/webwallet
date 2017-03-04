@@ -867,30 +867,30 @@
 				var total = 0;
 				var x = {};
 
-				if (window.DOMParser) {
+				/*if (window.DOMParser) {
 					parser=new DOMParser();
 					xmlDoc=parser.parseFromString(data,"text/xml");
 				} else {
 					xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
 					xmlDoc.async=false;
 					xmlDoc.loadXML(data);
-				}
+				}*/
 
-				var unspent = xmlDoc.getElementsByTagName("unspent")[0];
+				var unspent = JSON.parse(data);
 
-				for(i=1;i<=unspent.childElementCount;i++){
-					var u = xmlDoc.getElementsByTagName("unspent_"+i)[0]
-					var txhash = (u.getElementsByTagName("tx_hash")[0].childNodes[0].nodeValue).match(/.{1,2}/g).reverse().join("")+'';
-					var n = u.getElementsByTagName("tx_output_n")[0].childNodes[0].nodeValue;
-					var script = u.getElementsByTagName("script")[0].childNodes[0].nodeValue;
+				for(i=0;i<unspent.length;i++){
+					var u = unspent[i];
+					var txhash = u.txid;//.match(/.{1,2}/g).reverse().join("")+'';
+					var n = u.vout;
+					var script = u.scriptPubKey;
 
 					self.addinput(txhash, n, script);
 
-					value += u.getElementsByTagName("value")[0].childNodes[0].nodeValue*1;
+					value += u.satoshis;//.getElementsByTagName("value")[0].childNodes[0].nodeValue*1;
 					total++;
 				}
 
-				x.unspent = $(xmlDoc).find("unspent");
+				x.unspent = unspent;
 				x.value = value;
 				x.total = total;
 				return callback(x);
@@ -1490,7 +1490,7 @@
 		};
 
 		if(m == 'POST'){
-			x.setRequestHeader('Content-type','application/x-www-form-urlencoded');
+			x.setRequestHeader('Content-type','application/json');
 		}
 
 		x.send(a);
