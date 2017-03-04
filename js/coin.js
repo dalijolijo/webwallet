@@ -1490,7 +1490,7 @@
 		};
 
 		if(m == 'POST'){
-			x.setRequestHeader('Content-type','application/json');
+			x.setRequestHeader('Content-type','application/x-www-form-urlencoded');
 		}
 
 		x.send(a);

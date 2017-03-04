@@ -26,7 +26,7 @@ $(document).ready(function() {
 					var keys = coinjs.newKeys(s);
 
 					$("#walletAddress").html(keys.address);
-					$("#walletHistory").attr('href','https://chainz.cryptoid.info/grs/'+keys.address);
+					$("#walletHistory").attr('href','https://chainz.cryptoid.info/grs/address.dws?'+keys.address);
 
 					$("#walletQrCode").html("");
 					var qrcode = new QRCode("walletQrCode");
@@ -128,8 +128,9 @@ $(document).ready(function() {
 				console.log(signed);
 				// and finally broadcast!
 				tx2.broadcast(function(data){
-					if($(data).find("result").text()=="1"){
-						$("#walletSendConfirmStatus").removeClass('hidden').addClass('alert-success').html("txid: "+$(data).find("txid").text());
+					if($.parseJSON(data).txid) {
+					//if($(data).find("txid").text()=="1"){
+						$("#walletSendConfirmStatus").removeClass('hidden').addClass('alert-success').html("txid: "+$.parseJSON(data).txid);
 					} else {
 						$("#walletSendConfirmStatus").removeClass('hidden').addClass('alert-danger').html(unescape($(data).find("response").text()).replace(/\+/g,' '));
 						$("#walletSendFailTransaction").removeClass('hidden');
