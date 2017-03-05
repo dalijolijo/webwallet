@@ -17,7 +17,7 @@
 	coinjs.compressed = false;
 
 	/* other vars */
-	coinjs.developer = 'FihxBM45cSZe55K9uW6YELcvzCz3XfaAm2'; // bitcoin
+	coinjs.developer = 'FihxBM45cSZe55K9uW6YELcvzCz3XfaAm2'; // groestlcoin
 
 	/* bit(coinb.in) api vars */
 	coinjs.host = 'http://groestlsight.groestlcoin.org/api/';
@@ -428,7 +428,7 @@
 				var decoded = coinjs.base58decode(data);
 				if(decoded.length == 82){
 					var checksum = decoded.slice(78, 82);
-					var hash = Crypto.util.hexToBytes(Module.ccall('GroestlCoinHash', 'string', ['string'], [Crypto.util.bytesToHex(decoded.slice(0,78))]));//Crypto.SHA256(Crypto.SHA256(decoded.slice(0, 78), { asBytes: true } ), { asBytes: true } );
+					var hash = Crypto.SHA256(Crypto.SHA256(decoded.slice(0, 78), { asBytes: true } ), { asBytes: true } );
 					if(checksum[0]==hash[0] && checksum[1]==hash[1] && checksum[2]==hash[2] && checksum[3]==hash[3]){
 						bytes = decoded.slice(0, 78);
 					}
