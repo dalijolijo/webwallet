@@ -648,7 +648,7 @@ $(document).ready(function() {
 
 			QCodeDecoder().decodeFromCamera(document.getElementById('videoReader'), function(er,data){
 				if(!er){
-					var match = data.match(/^bitcoin\:([13][a-z0-9]{26,33})/i);
+					var match = data.match(/^groestlcoin\:([13][a-z0-9]{26,33})/i);
 					var result = match ? match[1] : data;
 					$(""+$("#qrcode-scanner-callback-to").html()).val(result);
 					$("#qrScanClose").click();
@@ -939,17 +939,17 @@ $(document).ready(function() {
 			},
 			success: function(data) {
                 console.log(data);
-				if((data.status && data.data) && data.status=='success'){
+				if((data.unspent_outputs)){
 					$("#redeemFromAddress").removeClass('hidden').html(
 						'<span class="glyphicon glyphicon-info-sign"></span> Retrieved unspent inputs from address <a href="https://btc.blockr.io/address/info/'+
 						redeem.addr+'" target="_blank">'+redeem.addr+'</a>');
-					for(var i in data.data.txs){
-						var o = data.data.txs[i];
-						var tx = ((""+o.txid).match(/.{1,2}/g).reverse()).join("")+'';
+					for(i = 0; i < data.unspent_outputs.length; ++i){
+						var o = data.unspent_outputs[i];
+						var tx = o.tx_hash;//((""+o.tx_hash).match(/.{1,2}/g).reverse()).join("")+'';
 						if(tx.match(/^[a-f0-9]+$/)){
-							var n = o.output_no;
-							var script = (redeem.isMultisig==true) ? $("#redeemFrom").val() : o.script_hex;
-							var amount = o.value;
+							var n = o.tx_ouput_n;
+							var script = (redeem.isMultisig==true) ? $("#redeemFrom").val() : o.script;
+							var amount = (o.value /100000000).toFixed(8);;
 							addOutput(tx, n, script, amount);
 						}
 					}
@@ -1752,19 +1752,11 @@ $(document).ready(function() {
 	function configureBroadcast(){
 		var host = $("#coinjs_broadcast option:selected").val();
 		$("#rawSubmitBtn").unbind("");
-		if(host=="blockr.io_litecoin"){
+		if(host=="groestlsight.groestlcoin.org") {
 			$("#rawSubmitBtn").click(function(){
-				rawSubmitBlockrio_litecoin(this)
+                rawSubmitChainz_Groestlcoin(this);
 			});
-		} else if(host=="blockr.io_bitcoinmainnet"){
-			$("#rawSubmitBtn").click(function(){
-				rawSubmitBlockrio_BitcoinMainnet(this);
-			});
-		} else if(host=="chain.so_bitcoinmainnet"){
-			$("#rawSubmitBtn").click(function(){
-				rawSubmitChainso_BitcoinMainnet(this);
-			});
-        } else if(host=="chainz.cryptoid.info") {
+		} else if(host=="chainz.cryptoid.info") {
 			$("#rawSubmitBtn").click(function(){
                 rawSubmitChainz_Groestlcoin(this);
 			});
