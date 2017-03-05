@@ -226,7 +226,7 @@
 														</div>
 														<div class="col-xs-5">
 															<label><abbr title="the amount to donate to webwallet">Donation</abbr></label>
-															<input type="text" class="form-control" value="0.001" id="developerDonation">
+															<input type="text" class="form-control" value="0.000" id="developerDonation">
 														</div>
 													</div>
 													<br>
@@ -391,7 +391,7 @@
 
                             <div class="col-md-11">
 				<p>Use <i><a href="https://github.com/bitcoin/bips/blob/master/bip-0065.mediawiki" target="_blank">OP_CHECKLOCKTIMEVERIFY</a></i> (OP_HODL) to create a time locked address where the funds are unspendable until a set date and time has passed.</p>
-                                <p>Public keys can be <a href="#newAddress">generated in your browser</a> or from your bitcoin client</a>.</p>
+                                <p>Public keys can be <a href="#newAddress">generated in your browser</a> or from your groestlcoin client</a>.</p>
                                 <p>Enter the public key that will be able to unlock the funds after the a certain date.
                             </div>
 
@@ -993,7 +993,7 @@
                                     <option value="bitcoin_mainnet" rel="0x24;0x80;0x05;0x488b21e;0x488ade4;chainz.cryptoid.info;chainz.cryptoid.info">Groestlcoin (Mainnet)</option>
                                     <!--	<option value="bitcoin_testnet" rel="0x6f;0xef;0xc4;0x043587cf;0x04358394;blockr.io_bitcointestnet;false">Groestlcoin (testnet)</option> -->
 
-									<option value="custom" rel="0x00;0x80;0x05;0x488b21e;0x488ade4;false;false">Custom</option>
+									<!--option value="custom" rel="0x00;0x80;0x05;0x488b21e;0x488ade4;false;false">Custom</option-->
 								</select>
 							</div>
 						</div>
@@ -1044,7 +1044,7 @@
 								<b>Broadcast</b>: <br>
 								<p class="text-muted">Select the network you wish to broadcast the transaction via</p>
 								<select class="form-control" id="coinjs_broadcast">
-                  <option value="chainz.cryptoid.info">Chainz.cryptoid.info</option>
+                 					<option value="chainz.cryptoid.info">chainz.cryptoid.info</option>
 									<option value="groestlsight.groestlcoin.org">groestlsight.groestlcoin.org</option>
 							
 								<!--	<option value="blockr.io_bitcointestnet"> Blockr.io (Groestlcoin testnet)</option> -->
@@ -1059,9 +1059,8 @@
 								<b>Unspent outputs</b>: <br>
 								<p class="text-muted">Select the network you wish to retreive your unspent inputs from</p>
 								<select class="form-control" id="coinjs_utxo">
-                  <option value="chainz.cryptoid.info">Chainz.cryptoid.info</option>
+                  					<option value="chainz.cryptoid.info">chainz.cryptoid.info</option>
 									<option value="groestlsight.groestlcoin.org">groestlsight.groestlcoin.org</option>
-								
 								</select>
 							</div>
 						</div>
@@ -1191,7 +1190,7 @@
 							-->
 
 							<select id="mediatorList" class="form-control">
-								<option value="02888e24bc63fc5bcb37c3184ae874365c7fc91de8a343e70d81e7a0eda443aef3;groestlcoin@gmail.com;1">Groestlcoin</option>
+								<option value="02888e24bc63fc5bcb37c3184ae874365c7fc91de8a343e70d81e7a0eda443aef3;hashengineeringsolutions@gmail.com;1">Groestlcoin</option>
 							</select>
 						</div>
 
