@@ -1,8 +1,7 @@
 /*
- Coinjs 0.01 beta by OutCast3k{at}gmail.com
- A bitcoin framework.
+ Coinjs 0.01 beta by OutCast3k{at}gmail.com and Hash Engineering Solutions{at}gmail.com
+ A groestlcoin framework.
 
- http://github.com/OutCast3k/coinjs or http://coinb.in/coinjs
 */
 
 (function () {

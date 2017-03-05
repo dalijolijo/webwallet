@@ -686,14 +686,12 @@ $(document).ready(function() {
 		var host = $(this).attr('rel');
 
 
-		if(host=='blockr.io_bitcoinmainnet'){
-			listUnspentBlockrio_BitcoinMainnet(redeem);
-		} else if(host=='chain.so_litecoin'){
-			listUnspentChainso_Litecoin(redeem);
-        } else if(host=='chainz.cryptoid.info') {
+		if(host=='chainz.cryptoid.info') {
             listUnspentChainz_Groestlcoin(redeem);
+		} else if(host=='groestlsight.groestlcoin.org') {
+            listUnspentGroestlsight_Groestlcoin(redeem);
 		} else {
-			listUnspentDefault(redeem);
+			listUnspentChainz_Groestlcoin(redeem);
 		}
 
 		if($("#redeemFromStatus").hasClass("hidden")) {
@@ -931,7 +929,7 @@ $(document).ready(function() {
 	}
 
 	/* retrieve unspent data from chain.so for dogecoin */
-	function listUnspentChainso_Dogecoin(redeem){
+	function listUnspentChainz_Groestlcoin(redeem){
 		$.ajax ({
 			type: "GET",
             url: "http://chainz.cryptoid.info/grs/api.dws?q=unspent&key="+coinjs.apikey+"&active="+redeem.addr,
@@ -957,6 +955,37 @@ $(document).ready(function() {
 					}
 				} else {
 					$("#redeemFromStatus").removeClass('hidden').html('<span class="glyphicon glyphicon-exclamation-sign"></span> Unexpected error, unable to retrieve unspent outputs.');
+				}
+			},
+			complete: function(data, status) {
+				$("#redeemFromBtn").html("Load").attr('disabled',false);
+				totalInputAmount();
+			}
+		});
+	}
+
+		/* retrieve unspent data from InsightAPI for piggycoin */
+	function listUnspentGroestlsight_Groestlcoin(redeem){
+		$.ajax ({
+			type: "GET",
+			url: "https://groestlsight.groestlcoin.org/api/addr/"+redeem.addr+"/utxo",
+			dataType: "json",
+			error: function(data) {
+				$("#redeemFromStatus").removeClass('hidden').html('<span class="glyphicon glyphicon-exclamation-sign"></span> Unexpected error, unable to retrieve unspent outputs!');
+			},
+			success: function(data) {
+				if(data.length > 0){
+					$("#redeemFromAddress").removeClass('hidden').html('<span class="glyphicon glyphicon-info-sign"></span> Retrieved unspent inputs from address <a href="https://btc.blockr.io/address/info/'+redeem.addr+'" target="_blank">'+redeem.addr+'</a>');
+					for(var i in data){
+						var o = data[i];
+						var tx = o.txid;
+						var n = o.vout;
+						var script = (redeem.isMultisig==true) ? $("#redeemFrom").val() : o.scriptPubKey;
+						var amount = o.amount;
+						addOutput(tx, n, script, amount);
+					}
+				} else {
+					$("#redeemFromStatus").removeClass('hidden').html('<span class="glyphicon glyphicon-exclamation-sign"></span> No unspent outputs found.');
 				}
 			},
 			complete: function(data, status) {
