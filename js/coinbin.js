@@ -968,7 +968,7 @@ $(document).ready(function() {
 	function listUnspentGroestlsight_Groestlcoin(redeem){
 		$.ajax ({
 			type: "GET",
-			url: "https://groestlsight.groestlcoin.org/api/addr/"+redeem.addr+"/utxo",
+			url: "http://groestlsight.groestlcoin.org/api/addr/"+redeem.addr+"/utxo",
 			dataType: "json",
 			error: function(data) {
 				$("#redeemFromStatus").removeClass('hidden').html('<span class="glyphicon glyphicon-exclamation-sign"></span> Unexpected error, unable to retrieve unspent outputs!');
@@ -981,7 +981,7 @@ $(document).ready(function() {
 						var tx = o.txid;
 						var n = o.vout;
 						var script = (redeem.isMultisig==true) ? $("#redeemFrom").val() : o.scriptPubKey;
-						var amount = o.amount;
+						var amount = (o.value /100000000).toFixed(8);
 						addOutput(tx, n, script, amount);
 					}
 				} else {
