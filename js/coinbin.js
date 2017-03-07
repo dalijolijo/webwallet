@@ -1175,8 +1175,8 @@ $(document).ready(function() {
 			type: "POST",
             url: "http://chainz.cryptoid.info/grs/api.dws?q=pushtx&key="+coinjs.apikey,
             data: $("#rawTransaction").val(), //{"tx_hex":$("#rawTransaction").val()},
-            dataType: "text/plain", //"json",
-			error: function(data) {
+            dataType: "text", //"json",
+			error: function(data, status, error) {
 				var obj = data.responseText; //$.parseJSON(data.responseText);
 				var r = '';
                 r += obj.length ? obj : '';//(obj.data.tx_hex) ? obj.data.tx_hex : '';
@@ -1215,7 +1215,7 @@ $(document).ready(function() {
             success: function(data) {
                 //var obj = $.parseJSON(data.responseText);
                 if(data.txid){
-                    $("#rawTransactionStatus").addClass('alert-success').removeClass('alert-danger').removeClass("hidden").html(' Txid: '+obj.txid);
+                    $("#rawTransactionStatus").addClass('alert-success').removeClass('alert-danger').removeClass("hidden").html(' Txid: '+data.txid);
                 } else {
                     $("#rawTransactionStatus").addClass('alert-danger').removeClass('alert-success').removeClass("hidden").html(' Unexpected error, please try again').prepend('<span class="glyphicon glyphicon-exclamation-sign"></span>');
                 }
@@ -1754,7 +1754,7 @@ $(document).ready(function() {
 		$("#rawSubmitBtn").unbind("");
 		if(host=="groestlsight.groestlcoin.org") {
 			$("#rawSubmitBtn").click(function(){
-                rawSubmitChainz_Groestlcoin(this);
+                rawSubmitGroestlsight_Groestlcoin(this);
 			});
 		} else if(host=="chainz.cryptoid.info") {
 			$("#rawSubmitBtn").click(function(){
@@ -1763,7 +1763,7 @@ $(document).ready(function() {
 		} else {
 			$("#rawSubmitBtn").click(function(){
 				//rawSubmitDefault(this); // revert to default
-				rawSubmitChainz_Groestlcoin(this);
+				rawSubmitGroestlsight_Groestlcoin(this);
 			});
 		}
 	}
