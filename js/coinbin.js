@@ -128,11 +128,13 @@ $(document).ready(function() {
 				console.log(signed);
 				// and finally broadcast!
 				tx2.broadcast(function(data){
-					if($.parseJSON(data).txid) {
-					//if($(data).find("txid").text()=="1"){
+					//if($*(data).length==64) {
+					//if($.parseJSON(data).txid) {
+					if(data.search("txid")!=-1){
 						$("#walletSendConfirmStatus").removeClass('hidden').addClass('alert-success').html("The transaction was sent successfully.  Your transaction id is:  "+$.parseJSON(data).txid);
 					} else {
-						$("#walletSendConfirmStatus").removeClass('hidden').addClass('alert-danger').html(unescape($(data).find("response").text()).replace(/\+/g,' '));
+						//$("#walletSendConfirmStatus").removeClass('hidden').addClass('alert-danger').html(unescape($(data).find("response").text()).replace(/\+/g,' '));
+						$("#walletSendConfirmStatus").removeClass('hidden').addClass('alert-danger').html(data);
 						$("#walletSendFailTransaction").removeClass('hidden');
 						$("#walletSendFailTransaction textarea").val(signed);
 						thisbtn.attr('disabled',false);
@@ -143,7 +145,7 @@ $(document).ready(function() {
 
 				}, signed);
 			} else {
-				$("#walletSendConfirmStatus").removeClass("hidden").addClass('alert-danger').html("You have a confirmed balance of "+data.value+" GRS unable to send "+total+" GRS").fadeOut().fadeIn();
+				$("#walletSendConfirmStatus").removeClass("hidden").addClass('alert-danger').html("You have a confirmed balance of "+((data.value/100000000).toFixed(8) * 1)+" GRS unable to send "+total+" GRS").fadeOut().fadeIn();
 				thisbtn.attr('disabled',false);
 			}
 

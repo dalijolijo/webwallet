@@ -24,6 +24,8 @@
 	coinjs.uid = '1';
 	coinjs.key = '12345678901234567890123456789012';
 
+	coinjs.host2 = 'http://chainz.cryptoid.info/grs/api.dws?key=';
+	coinjs.key2 = '12345678901234567890123456789012';
 	/* start of address functions */
 
 	/* generate a private and public keypair, with address and WIF address */
@@ -853,7 +855,8 @@
 
 		/* list unspent transactions */
 		r.listUnspent = function(address, callback) {
-			coinjs.ajax(coinjs.host+'addr/'+address+'/utxo', callback, "GET");
+			//coinjs.ajax(coinjs.host+'addr/'+address+'/utxo', callback, "GET");
+			coinjs.ajax(coinjs.host2+coinjs.apikey+"&q=unspent&active="+address, callback, "GET");
 		}
 
 		/* add unspent to transaction */
@@ -875,17 +878,17 @@
 					xmlDoc.loadXML(data);
 				}*/
 
-				var unspent = JSON.parse(data);
+				var unspent = JSON.parse(data).unspent_outputs;
 
 				for(i=0;i<unspent.length;i++){
 					var u = unspent[i];
-					var txhash = u.txid;//.match(/.{1,2}/g).reverse().join("")+'';
-					var n = u.vout;
-					var script = u.scriptPubKey;
+					var txhash = u.tx_hash;//.match(/.{1,2}/g).reverse().join("")+'';
+					var n = u.tx_ouput_n;
+					var script = u.script;
 
 					self.addinput(txhash, n, script);
 
-					value += u.satoshis;//.getElementsByTagName("value")[0].childNodes[0].nodeValue*1;
+					value += u.value*1;//.getElementsByTagName("value")[0].childNodes[0].nodeValue*1;
 					total++;
 				}
 
