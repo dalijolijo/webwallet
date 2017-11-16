@@ -20,11 +20,11 @@
 	coinjs.developer = 'FihxBM45cSZe55K9uW6YELcvzCz3XfaAm2'; // groestlcoin
 
 	/* bit(coinb.in) api vars */
-	coinjs.host = 'http://groestlsight.groestlcoin.org/api/';
+	coinjs.host = 'https://groestlsight.groestlcoin.org/api/';
 	coinjs.uid = '1';
 	coinjs.key = '12345678901234567890123456789012';
 
-	coinjs.host2 = 'http://chainz.cryptoid.info/grs/api.dws?key=';
+	coinjs.host2 = 'https://chainz.cryptoid.info/grs/api.dws?key=';
 	coinjs.key2 = '12345678901234567890123456789012';
 	/* start of address functions */
 
