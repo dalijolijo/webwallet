@@ -985,7 +985,7 @@ $(document).ready(function() {
 	function listUnspentChainz_Groestlcoin(redeem){
 		$.ajax ({
 			type: "GET",
-            url: "http://chainz.cryptoid.info/grs/api.dws?q=unspent&key="+coinjs.apikey+"&active="+redeem.addr,
+            url: "https://chainz.cryptoid.info/grs/api.dws?q=unspent&key="+coinjs.apikey+"&active="+redeem.addr,
 			dataType: "json",
 			error: function(data) {
 				$("#redeemFromStatus").removeClass('hidden').html('<span class="glyphicon glyphicon-exclamation-sign"></span> Unexpected error, unable to retrieve unspent outputs!');
@@ -1020,7 +1020,7 @@ $(document).ready(function() {
 	function listUnspentGroestlsight_Groestlcoin(redeem){
 		$.ajax ({
 			type: "GET",
-			url: "http://groestlsight.groestlcoin.org/api/addr/"+redeem.addr+"/utxo",
+			url: "https://groestlsight.groestlcoin.org/api/addr/"+redeem.addr+"/utxo",
 			dataType: "json",
 			error: function(data) {
 				$("#redeemFromStatus").removeClass('hidden').html('<span class="glyphicon glyphicon-exclamation-sign"></span> Unexpected error, unable to retrieve unspent outputs!');
@@ -1195,7 +1195,7 @@ $(document).ready(function() {
 		$(thisbtn).val('Please wait, loading...').attr('disabled',true);
 		$.ajax ({
 			type: "POST",
-            url: "http://chainz.cryptoid.info/grs/api.dws?q=pushtx&key="+coinjs.apikey,
+            url: "https://chainz.cryptoid.info/grs/api.dws?q=pushtx&key="+coinjs.apikey,
             data: $("#rawTransaction").val(), //{"tx_hex":$("#rawTransaction").val()},
             dataType: "text", //"json",
 			error: function(data, status, error) {
@@ -1224,7 +1224,7 @@ $(document).ready(function() {
         $(thisbtn).val('Please wait, loading...').attr('disabled',true);
         $.ajax ({
             type: "POST",
-            url: "http://groestlsight.groestlcoin.org/api/tx/send",//+coinjs.apikey,
+            url: "https://groestlsight.groestlcoin.org/api/tx/send",//+coinjs.apikey,
             data: "rawtx="+$("#rawTransaction").val(),
             dataType: "json",
             error: function(data, status, error) {
