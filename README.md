@@ -1,7 +1,7 @@
 coinbin
 =======
 
-A Open Source Browser Based Groestlcoin Wallet. Version 1.3 beta
+A Open Source Browser Based Groestlcoin Wallet. Version 1.4 beta
 
 
 Live version available at http://groestlcoin.org/webwallet
@@ -28,6 +28,8 @@ Webwallet supports a number of key features such as:
 - Offline qrcode creator and scanning tool
 - HD (bip32) support
 - Replace by fee (RBF) Support
-- Segwit support
+- Segwit Support
+- Bech32 address support
+- Fee calculator - https://coinb.in/#fees
 
-Donate to 1CWHWkTWaq1K5hevimJia3cyinQsrgXUvg to see more development!
+Donate to FihxBM45cSZe55K9uW6YELcvzCz3XfaAm2 to see more development!
