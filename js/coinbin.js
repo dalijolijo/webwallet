@@ -1085,7 +1085,7 @@ $(document).ready(function() {
 						var tx = ((""+o.tx_hash).match(/.{1,2}/g).reverse()).join("")+'';
 						if(tx.match(/^[a-f0-9]+$/)){
 							var n = o.tx_ouput_n;
-							var script = (redeem.redeemscript==true) ? $("#redeemFrom").val() : o.script;
+							var script = (redeem.redeemscript==true) ? (redeem.from == "bech32" ? coinjs.bech32redeemscript($("#redeemFrom").val()) :  $("#redeemFrom").val()) : o.script;
 							var amount = (o.value /100000000).toFixed(8);;
 							addOutput(tx, n, script, amount);
 						}
