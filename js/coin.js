@@ -191,7 +191,7 @@
 
 	/* create a new segwit bech32 encoded address */
 	coinjs.bech32Address = function(pubkey){
-		var program = ripemd160(Crypto.SHA256(Crypto.util.hexToBytes(pubkey), {asBytes: true}), {asBytes: true});
+		var program = [0x00,0x14].concat(ripemd160(Crypto.SHA256(Crypto.util.hexToBytes(pubkey), {asBytes: true}), {asBytes: true}));
 		var address = coinjs.bech32_encode(coinjs.bech32.hrp, [coinjs.bech32.version].concat(coinjs.bech32_convert(program, 8, 5, true))); 
 		return {'address':address, 'type':'bech32', 'redeemscript':Crypto.util.bytesToHex(program)};
 	}
