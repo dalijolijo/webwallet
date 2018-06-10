@@ -1085,7 +1085,7 @@ $(document).ready(function() {
 						var tx = ((""+o.tx_hash).match(/.{1,2}/g).reverse()).join("")+'';
 						if(tx.match(/^[a-f0-9]+$/)){
 							var n = o.tx_ouput_n;
-							var script = (redeem.isMultisig==true) ? $("#redeemFrom").val() : o.script;
+							var script = (redeem.redeemscript==true) ? $("#redeemFrom").val() : o.script;
 							var amount = (o.value /100000000).toFixed(8);;
 							addOutput(tx, n, script, amount);
 						}
@@ -1117,7 +1117,7 @@ $(document).ready(function() {
 						var o = data[i];
 						var tx = ((o.txid).match(/.{1,2}/g).reverse()).join("")+'';
 						var n = o.vout;
-						var script = (redeem.isMultisig==true) ? $("#redeemFrom").val() : o.scriptPubKey;
+						var script = (redeem.redeemscript==true) ? $("#redeemFrom").val() : o.scriptPubKey;
 						var amount = (o.value /100000000).toFixed(8);
 						addOutput(tx, n, script, amount);
 					}
