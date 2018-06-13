@@ -858,11 +858,13 @@ $(document).ready(function() {
 
 
 		if(host=='chainz.cryptoid.info') {
-            listUnspentChainz_Groestlcoin(redeem);
+            listUnspentChainz_Groestlcoin(redeem, false);
+		} else if(host=='chainz.cryptoid.info-test') {
+            listUnspentChainz_Groestlcoin(redeem, true);
 		} else if(host=='groestlsight.groestlcoin.org') {
             listUnspentGroestlsight_Groestlcoin(redeem);
 		} else {
-			listUnspentChainz_Groestlcoin(redeem);
+			listUnspentChainz_Groestlcoin(redeem, false);
 		}
 
 		if($("#redeemFromStatus").hasClass("hidden")) {
@@ -1067,10 +1069,12 @@ $(document).ready(function() {
 	}
 
 	/* retrieve unspent data from chain.so for dogecoin */
-	function listUnspentChainz_Groestlcoin(redeem){
+	function listUnspentChainz_Groestlcoin(redeem, testnet){
+		var explorerUrl = testnet ? "https://chainz.cryptoid.info/grs-test/api.dws?q=unspent&key=" :
+							"https://chainz.cryptoid.info/grs/api.dws?q=unspent&key="
 		$.ajax ({
 			type: "GET",
-            url: "https://chainz.cryptoid.info/grs/api.dws?q=unspent&key="+coinjs.apikey+"&active="+redeem.addr,
+            url: explorerUrl+coinjs.apikey+"&active="+redeem.addr,
 			dataType: "json",
 			error: function(data) {
 				$("#redeemFromStatus").removeClass('hidden').html('<span class="glyphicon glyphicon-exclamation-sign"></span> Unexpected error, unable to retrieve unspent outputs!');
@@ -1113,12 +1117,12 @@ $(document).ready(function() {
 			success: function(data) {
 				if(data.length > 0){
 					$("#redeemFromAddress").removeClass('hidden').html('<span class="glyphicon glyphicon-info-sign"></span> Retrieved unspent inputs from address <a href="https://chainz.cryptoid.info/grs/address.dws?'+redeem.addr+'" target="_blank">'+redeem.addr+'</a>');
-					for(var i in data){
+					for(i = 0; i < data.length; ++i){
 						var o = data[i];
 						var tx = ((o.txid).match(/.{1,2}/g).reverse()).join("")+'';
 						var n = o.vout;
-						var script = (redeem.redeemscript==true) ? $("#redeemFrom").val() : o.scriptPubKey;
-						var amount = (o.value /100000000).toFixed(8);
+						var script = (redeem.redeemscript==true) ? (redeem.from == "bech32" ? coinjs.bech32redeemscript($("#redeemFrom").val()) :  $("#redeemFrom").val()) : o.scriptPubKey;
+						var amount = (o.satoshis /100000000).toFixed(8);
 						addOutput(tx, n, script, amount);
 					}
 				} else {

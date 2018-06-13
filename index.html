@@ -1302,7 +1302,7 @@
 
 					<div class="tab-pane tab-content" id="about">
 						<h2>About <small>open source Groestlcoin webwallet</small></h2>
-						<p>Version 1.2</p>
+						<p>Version 1.4</p>
 						<p>Compatible with Groestlcoin Core</p>
 						<p>Github <a href="https://github.com/groestlcoin/webwallet/">https://github.com/groestlcoin/webwallet/</a></p>
 						<p>TOR <a href="http://4zpinp6gdkjfplhk.onion">4zpinp6gdkjfplhk.onion</a></p>	
@@ -1312,10 +1312,8 @@
 						<p>Webwallet is a free and open source project released under the MIT license</p>
 						<h3>Privacy</h3>
 						<p>Webwallet believes strongly in privacy, not only do we support the use of TOR, the site does not collect and store IP or transaction data via our servers nor do we store your bitcoins private key. We do route traffic via cloudflare using an SSL certificate.</p>
-						<h3>Support</h3>
-						<p>We recommend that you first check our <a href="https://status.coinb.in/" target="_blank">service status</a> page and then <a href="https://blog.coinb.in/" target="_blank">blog</a> page which has multiple <a href="https://blog.coinb.in/guides" target="_blank">guides</a>. However if the problem persists you can contact us by emailing support{at}coinb.in.</p>
 						<h3>Donate</h3>
-						<p>Please donate to <a href="bitcoin:3K1oFZMks41C7qDYBsr72SYjapLqDuSYuN">3K1oFZMks41C7qDYBsr72SYjapLqDuSYuN</a> if you found this project useful or want to see more features!</p>
+						<p>Please donate to <a href="groestlcoin:38g6ahSbkF6Un7KwidwrNmQSNs8CiPtnaB">38g6ahSbkF6Un7KwidwrNmQSNs8CiPtnaB</a> if you found this project useful or want to see more features!</p>
 					</div>
 
 					<div class="tab-pane tab-content" id="settings">
@@ -1327,8 +1325,8 @@
 								<b>Network</b>: <br>
 								<p class="text-muted">Select which network you'd like to use for key pair generation.</p>
 								<select class="form-control" id="coinjs_coin">
-                                    <option value="bitcoin_mainnet" rel="0x24;0x80;0x05;0x488b21e;0x488ade4;chainz.cryptoid.info;chainz.cryptoid.info">Groestlcoin (Mainnet)</option>
-                                    <!--	<option value="bitcoin_testnet" rel="0x6f;0xef;0xc4;0x043587cf;0x04358394;blockr.io_bitcointestnet;false">Groestlcoin (testnet)</option> -->
+                                    <option value="bitcoin_mainnet" rel="0x24;0x80;0x05;0x488b21e;0x488ade4;chainz.cryptoid.info;chainz.cryptoid.info">Groestlcoin (MainNet)</option>
+                                    <option value="bitcoin_testnet" rel="0x6f;0xef;0xc4;0x043587cf;0x04358394;chainz.cryptoid.info-test;chainz.cryptoid.info-test">Groestlcoin (TestNet)</option> -->
 
 									<!--option value="custom" rel="0x00;0x80;0x05;0x488b21e;0x488ade4;false;false">Custom</option-->
 								</select>
@@ -1381,8 +1379,9 @@
 								<b>Broadcast</b>: <br>
 								<p class="text-muted">Select the network you wish to broadcast the transaction via</p>
 								<select class="form-control" id="coinjs_broadcast">
-                 					<option value="chainz.cryptoid.info">chainz.cryptoid.info</option>
-									<option value="groestlsight.groestlcoin.org">groestlsight.groestlcoin.org</option>
+                 					<option value="chainz.cryptoid.info">chainz.cryptoid.info (MainNet)</option>
+									<option value="groestlsight.groestlcoin.org">groestlsight.groestlcoin.org (MainNet)</option>
+									<option value="chainz.cryptoid.info-test">chainz.cryptoid.info(TestNet)</option>
 								</select>
 							</div>
 						</div>
@@ -1395,7 +1394,8 @@
 								<p class="text-muted">Select the network you wish to retreive your unspent inputs from</p>
 								<select class="form-control" id="coinjs_utxo">
                   					<option value="chainz.cryptoid.info">chainz.cryptoid.info</option>
-									<option value="groestlsight.groestlcoin.org">groestlsight.groestlcoin.org</option>
+									<option value="groestlsight.groestlcoin.org">groestlsight.groestlcoin.org (MainNet)</option>
+									<option value="chainz.cryptoid.info-test">chainz.cryptoid.info(TestNet)</option>
 								</select>
 							</div>
 						</div>
