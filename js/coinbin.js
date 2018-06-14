@@ -5,6 +5,9 @@ $(document).ready(function() {
 	var explorer_tx = "https://chainz.cryptoid.info/grs/tx.dws?"
 	var explorer_addr = "https://chainz.cryptoid.info/grs/address.dws?"
 	var explorer_block = "https://chainz.cryptoid.info/grs/block.dws?"
+	var test_explorer_tx = "https://chainz.cryptoid.info/grs-test/tx.dws?"
+	var test_explorer_addr = "https://chainz.cryptoid.info/grs-test/address.dws?"
+	var test_explorer_block = "https://chainz.cryptoid.info/grs-test/block.dws?"
 
 	var wallet_timer = false;
 
@@ -862,7 +865,9 @@ $(document).ready(function() {
 		} else if(host=='chainz.cryptoid.info-test') {
             listUnspentChainz_Groestlcoin(redeem, true);
 		} else if(host=='groestlsight.groestlcoin.org') {
-            listUnspentGroestlsight_Groestlcoin(redeem);
+            listUnspentGroestlsight_Groestlcoin(redeem, false);
+		} else if(host=='groestlsight-test.groestlcoin.org') {
+            listUnspentGroestlsight_Groestlcoin(redeem, true);
 		} else {
 			listUnspentChainz_Groestlcoin(redeem, false);
 		}
@@ -1083,7 +1088,7 @@ $(document).ready(function() {
                 console.log(data);
 				if((data.unspent_outputs)){
 					$("#redeemFromAddress").removeClass('hidden').html(
-						'<span class="glyphicon glyphicon-info-sign"></span> Retrieved unspent inputs from address <a href="'+explorer_addr+redeem.addr+'" target="_blank">'+redeem.addr+'</a>');
+						'<span class="glyphicon glyphicon-info-sign"></span> Retrieved unspent inputs from address <a href="'+(testnet ? test_explorer_addr : explorer_addr)+redeem.addr+'" target="_blank">'+redeem.addr+'</a>');
 					for(i = 0; i < data.unspent_outputs.length; ++i){
 						var o = data.unspent_outputs[i];
 						var tx = ((""+o.tx_hash).match(/.{1,2}/g).reverse()).join("")+'';
@@ -1105,18 +1110,20 @@ $(document).ready(function() {
 		});
 	}
 
-		/* retrieve unspent data from InsightAPI for piggycoin */
-	function listUnspentGroestlsight_Groestlcoin(redeem){
+		/* retrieve unspent data from InsightAPI for groestlcoin */
+	function listUnspentGroestlsight_Groestlcoin(redeem, testnet){
+		var unspentUrl = testnet ? "https://groestlsight-test.groestlcoin.org/api/addr/" : 
+			"https://groestlsight.groestlcoin.org/api/addr/"
 		$.ajax ({
 			type: "GET",
-			url: "https://groestlsight.groestlcoin.org/api/addr/"+redeem.addr+"/utxo",
+			url: unspentUrl+redeem.addr+"/utxo",
 			dataType: "json",
 			error: function(data) {
 				$("#redeemFromStatus").removeClass('hidden').html('<span class="glyphicon glyphicon-exclamation-sign"></span> Unexpected error, unable to retrieve unspent outputs!');
 			},
 			success: function(data) {
 				if(data.length > 0){
-					$("#redeemFromAddress").removeClass('hidden').html('<span class="glyphicon glyphicon-info-sign"></span> Retrieved unspent inputs from address <a href="https://chainz.cryptoid.info/grs/address.dws?'+redeem.addr+'" target="_blank">'+redeem.addr+'</a>');
+					$("#redeemFromAddress").removeClass('hidden').html('<span class="glyphicon glyphicon-info-sign"></span> Retrieved unspent inputs from address <a href="'+(testnet ? test_explorer_addr : explorer_addr)+redeem.addr+'" target="_blank">'+redeem.addr+'</a>');
 					for(i = 0; i < data.length; ++i){
 						var o = data[i];
 						var tx = ((o.txid).match(/.{1,2}/g).reverse()).join("")+'';
@@ -1229,7 +1236,7 @@ $(document).ready(function() {
 		$(thisbtn).val('Please wait, loading...').attr('disabled',true);
 		$.ajax ({
 			type: "POST",
-			url: coinjs.host+'?uid='+coinjs.uid+'&key='+coinjs.key+'&setmodule=carboncoin&request=sendrawtransaction',
+			url: +'?uid='+coinjs.uid+'&key='+coinjs.key+'&setmodule=carboncoin&request=sendrawtransaction',
 			data: {'rawtx':$("#rawTransaction").val()},
 			dataType: "xml",
 			error: function(data) {
@@ -1280,11 +1287,13 @@ $(document).ready(function() {
 		});
 	}
 
-    function rawSubmitChainz_Groestlcoin(thisbtn){
+    function rawSubmitChainz_Groestlcoin(thisbtn, testnet){
+		broadcastUrl = testnet ? "https://chainz.cryptoid.info/grs-test/api.dws?q=pushtx&key=" :
+			"https://chainz.cryptoid.info/grs/api.dws?q=pushtx&key="
 		$(thisbtn).val('Please wait, loading...').attr('disabled',true);
 		$.ajax ({
 			type: "POST",
-            url: "https://chainz.cryptoid.info/grs/api.dws?q=pushtx&key="+coinjs.apikey,
+            url: broadcastUrl+coinjs.apikey,
             data: $("#rawTransaction").val(), //{"tx_hex":$("#rawTransaction").val()},
             dataType: "text", //"json",
 			error: function(data, status, error) {
@@ -1309,11 +1318,13 @@ $(document).ready(function() {
 		});
 	}
 
-    function rawSubmitGroestlsight_Groestlcoin(thisbtn){
+    function rawSubmitGroestlsight_Groestlcoin(thisbtn, testnet){
+		broadcastUrl = testnet ? "http://groestlsight-test.groestlcoin.org/api/tx/send" :
+			"https://groestlsight.groestlcoin.org/api/tx/send"
         $(thisbtn).val('Please wait, loading...').attr('disabled',true);
         $.ajax ({
             type: "POST",
-            url: "https://groestlsight.groestlcoin.org/api/tx/send",//+coinjs.apikey,
+            url: broadcastUrl,
             data: "rawtx="+$("#rawTransaction").val(),
             dataType: "json",
             error: function(data, status, error) {
@@ -1865,11 +1876,19 @@ $(document).ready(function() {
 		$("#rawSubmitBtn").unbind("");
 		if(host=="groestlsight.groestlcoin.org") {
 			$("#rawSubmitBtn").click(function(){
-                rawSubmitGroestlsight_Groestlcoin(this);
+                rawSubmitGroestlsight_Groestlcoin(this, false);
+			});
+		} else if(host=="groestlsight-test.groestlcoin.org") {
+			$("#rawSubmitBtn").click(function(){
+                rawSubmitGroestlsight_Groestlcoin(this, true);
 			});
 		} else if(host=="chainz.cryptoid.info") {
 			$("#rawSubmitBtn").click(function(){
-                rawSubmitChainz_Groestlcoin(this);
+                rawSubmitChainz_Groestlcoin(this, false);
+			});
+		} else if(host=="chainz.cryptoid.info-test") {
+			$("#rawSubmitBtn").click(function(){
+                rawSubmitChainz_Groestlcoin(this, true);
 			});
 		} else {
 			$("#rawSubmitBtn").click(function(){
