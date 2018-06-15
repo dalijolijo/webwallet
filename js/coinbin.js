@@ -48,7 +48,7 @@ $(document).ready(function() {
 					}
 
 					$("#walletAddress").html(address);
-					$("#walletHistory").attr('href',explorer_addr+address);
+					$("#walletHistory").attr('href',($("#coinjs_pub").val() == 0x6f ? test_explorer_addr:explorer_addr)+address);
 
 					$("#walletQrCode").html("");
 					var qrcode = new QRCode("walletQrCode");
@@ -85,7 +85,7 @@ $(document).ready(function() {
 		$("#openWallet").addClass("hidden").show();
 
 		$("#walletAddress").html("");
-		$("#walletHistory").attr('href',explorer_addr);
+		$("#walletHistory").attr('href',$("#coinjs_pub").val() == 0x6f ? test_explorer_addr:explorer_addr);
 
 		$("#walletQrCode").html("");
 		var qrcode = new QRCode("walletQrCode");
