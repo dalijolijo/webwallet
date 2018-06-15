@@ -23,10 +23,12 @@
 
 	/* bit(coinb.in) api vars */
 	coinjs.host = 'https://groestlsight.groestlcoin.org/api/';
+	coinjs.host_test = 'https://groestlsight-test.groestlcoin.org/api/';
 	coinjs.uid = '1';
 	coinjs.key = '12345678901234567890123456789012';
 
 	coinjs.host2 = 'https://chainz.cryptoid.info/grs/api.dws?key=';
+	coinjs.host2_test = 'https://chainz.cryptoid.info/grs-test/api.dws?key=';
 	coinjs.key2 = '12345678901234567890123456789012';
 	/* start of address functions */
 
@@ -322,7 +324,7 @@
 
 	/* retreive the balance from a given address */
 	coinjs.addressBalance = function(address, callback){
-		coinjs.ajax(coinjs.host+'addr/'+address+'/balance', callback, "GET");
+		coinjs.ajax(($("#coinjs_pub").val() == 0x6f ? coinjs.host_test : coinjs.host) +'addr/'+address+'/balance', callback, "GET");
 		//coinjs.ajax(coinjs.host+'?uid='+coinjs.uid+'&key='+coinjs.key+'&setmodule=addresses&request=bal&address='+address+'&r='+Math.random(), callback, "GET");
 	}
 
@@ -1033,7 +1035,7 @@
 		/* list unspent transactions */
 		r.listUnspent = function(address, callback) {
 			//coinjs.ajax(coinjs.host+'addr/'+address+'/utxo', callback, "GET");
-			coinjs.ajax(coinjs.host2+coinjs.apikey+"&q=unspent&active="+address, callback, "GET");
+			coinjs.ajax(($("#coinjs_pub").val() == 0x6f ?coinjs.host2_test : coinjs.host2)+coinjs.apikey+"&q=unspent&active="+address, callback, "GET");
 		}
 
 		/* add unspent to transaction */
@@ -1106,7 +1108,7 @@
 		/* broadcast a transaction */
 		r.broadcast = function(callback, txhex){
 			var tx = txhex || this.serialize();
-			coinjs.ajax(coinjs.host+'tx/send', callback, "POST", 'rawtx='+tx);
+			coinjs.ajax(($("#coinjs_pub").val() == 0x6f ? coinjs.host_test : coinjs.host)+'tx/send', callback, "POST", 'rawtx='+tx);
 		}
 
 		/* generate the transaction hash to sign from a transaction input */

@@ -177,7 +177,7 @@ $(document).ready(function() {
 
 				tx2.broadcast(function(data){
 					if(data.search("txid")!=-1){
-						$("#walletSendConfirmStatus").removeClass('hidden').addClass('alert-success').html('txid: <a href="'+explorer_tx+$(data).find("txid").text()+'" target="_blank">'+$(data).find("txid").text()+'</a>');
+						$("#walletSendConfirmStatus").removeClass('hidden').addClass('alert-success').html('txid: <a href="'+$("#coinjs_pub").val() == 0x6f ? test_explorer_tx: explorer_tx+$(data).find("txid").text()+'" target="_blank">'+$(data).find("txid").text()+'</a>');
 //					if($(data).find("result").text()=="1"){
 //						$("#walletSendConfirmStatus").removeClass('hidden').addClass('alert-success').html('txid: <a href="https://coinb.in/tx/'+$(data).find("txid").text()+'" target="_blank">'+$(data).find("txid").text()+'</a>');
 					} else {
@@ -857,7 +857,7 @@ $(document).ready(function() {
 
 		$("#redeemFromBtn").html("Please wait, loading...").attr('disabled',true);
 
-		var host = $(this).attr('rel');
+		var host = c;
 
 
 		if(host=='chainz.cryptoid.info') {
@@ -1862,6 +1862,7 @@ $(document).ready(function() {
 		$("#coinjs_multisig").val(o[2]);
 		$("#coinjs_hdpub").val(o[3]);
 		$("#coinjs_hdprv").val(o[4]);
+
 
 		// hide/show custom screen
 		if($("option:selected",this).val()=="custom"){
