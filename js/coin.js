@@ -310,6 +310,13 @@
 
 				return o;
 			} else {
+				//some bech32 addresses are valid base58 strings
+				//see of it is bech32
+				bech32rs = coinjs.bech32redeemscript(addr);
+				if(bech32rs){
+					return {'type':'bech32', 'redeemscript':bech32rs};
+				}
+
 				return false;
 			}
 		} catch(e) {
@@ -324,7 +331,8 @@
 
 	/* retreive the balance from a given address */
 	coinjs.addressBalance = function(address, callback){
-		coinjs.ajax(($("#coinjs_pub").val() == 0x6f ? coinjs.host_test : coinjs.host) +'addr/'+address+'/balance', callback, "GET");
+		coinjs.ajax(($("#coinjs_pub").val() == 0x6f ? coinjs.host2_test : coinjs.host2) + coinjs.apikey + '&q=getbalance&a='+address, callback, "GET");
+		//coinjs.ajax(($("#coinjs_pub").val() == 0x6f ? coinjs.host_test : coinjs.host) +'addr/'+address+'/balance', callback, "GET");
 		//coinjs.ajax(coinjs.host+'?uid='+coinjs.uid+'&key='+coinjs.key+'&setmodule=addresses&request=bal&address='+address+'&r='+Math.random(), callback, "GET");
 	}
 

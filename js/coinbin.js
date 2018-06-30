@@ -882,7 +882,7 @@ $(document).ready(function() {
 
 		$("#redeemFromBtn").html("Please wait, loading...").attr('disabled',true);
 
-		var host = c;
+		var host = $(this).attr('rel');
 
 
 		if(host=='chainz.cryptoid.info') {
