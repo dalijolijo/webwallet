@@ -14,7 +14,7 @@
 	coinjs.multisig = 0x05;
 	coinjs.hdkey = {'prv':0x0488ade4, 'pub':0x0488b21e};
 	coinjs.apikey = "d47da926b82e";
-	coinjs.bech32 = {'charset':'qpzry9x8gf2tvdw0s3jn54khce6mua7l', 'version':0, 'hrp':'grs'};
+	coinjs.bech32 = {'charset':'qpzry9x8gf2tvdw0s3jn54khce6mua7l', 'version':0, 'hrp':'grs', 'hrp_test':'tgrs'};
 		
 	coinjs.compressed = false;
 
@@ -192,9 +192,9 @@
 	}
 
 	/* create a new segwit bech32 encoded address */
-	coinjs.bech32Address = function(pubkey){
+	coinjs.bech32Address = function(pubkey, version){
 		var program = ripemd160(Crypto.SHA256(Crypto.util.hexToBytes(pubkey), {asBytes: true}), {asBytes: true});
-		var address = coinjs.bech32_encode(coinjs.bech32.hrp, [coinjs.bech32.version].concat(coinjs.bech32_convert(program, 8, 5, true))); 
+		var address = coinjs.bech32_encode(version == 0x6F ? coinjs.bech32.hrp_test :coinjs.bech32.hrp, [coinjs.bech32.version].concat(coinjs.bech32_convert(program, 8, 5, true))); 
 		return {'address':address, 'type':'bech32', 'redeemscript':Crypto.util.bytesToHex(program)};
 	}
 

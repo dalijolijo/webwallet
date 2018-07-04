@@ -41,7 +41,7 @@ $(document).ready(function() {
 					$("#walletKeys .walletSegWitRS").addClass("hidden");
 					if($("#walletSegwit").is(":checked")){
 						if($("#walletSegwitBech32").is(":checked")){
-							var sw = coinjs.bech32Address(pubkey);
+							var sw = coinjs.bech32Address(pubkey, $("#coinjs_pub").val());
 							address = sw.address;
 						} else {
 
@@ -167,7 +167,7 @@ $(document).ready(function() {
 		var script = false;
 		if($("#walletSegwit").is(":checked")){
 			if($("#walletSegwitBech32").is(":checked")){
-				var sw = coinjs.bech32Address($("#walletKeys .pubkey").val());
+				var sw = coinjs.bech32Address($("#walletKeys .pubkey").val(), $("#coinjs_pub").val());
 			} else {
 				var sw = coinjs.segwitAddress($("#walletKeys .pubkey").val());
 			}
@@ -308,12 +308,12 @@ $(document).ready(function() {
 		$("#walletLoader").removeClass("hidden");
 		coinjs.addressBalance($("#walletAddress").html(),function(data){
 			if($(data).find("result").text()==1){
-				var v = $(data).find("balance").text()/100000000;
+				var v = $(data).find("balance").text()/*/100000000*/;
 				$("#walletBalance").html(v+" GRS").attr('rel',v).fadeOut().fadeIn();
 			} else {
 				$("#walletBalance").html("0.00 GRS").attr('rel',v).fadeOut().fadeIn();
 			}
-			var v = data/100000000;
+			var v = data/*/100000000*/;
 			$("#walletBalance").html(v+" GRS").attr('rel',v).fadeOut().fadeIn();
 			$("#walletLoader").addClass("hidden");
 		});
@@ -388,7 +388,7 @@ $(document).ready(function() {
 		var coin = coinjs.newKeys(s);
 
 		if($("#newSegWitBech32addr").is(":checked")){
-			var sw = coinjs.bech32Address(coin.pubkey);
+			var sw = coinjs.bech32Address(coin.pubkey, $("#coinjs_pub").val());
 		} else {
 			var sw = coinjs.segwitAddress(coin.pubkey);
 		}
@@ -1538,7 +1538,7 @@ $(document).ready(function() {
 					if(o.script.chunks.length==5){
 						addr = coinjs.scripthash2address(Crypto.util.bytesToHex(o.script.chunks[2]));
 					} else if((o.script.chunks.length==2) && o.script.chunks[0]==0){
-						addr = coinjs.bech32_encode(coinjs.bech32.hrp, [coinjs.bech32.version].concat(coinjs.bech32_convert(o.script.chunks[1], 8, 5, true)));
+						addr = coinjs.bech32_encode(($("#coinjs_pub").val() == 0x6f ? coinjs.bech32.hrp_test : coinjs.bech32.hrp), [coinjs.bech32.version].concat(coinjs.bech32_convert(o.script.chunks[1], 8, 5, true)));
 					} else {
 						var pub = coinjs.pub;
 						coinjs.pub = coinjs.multisig;
@@ -1603,7 +1603,7 @@ $(document).ready(function() {
 					$("#verifyPubKey .addressSegWit").val(sw.address);
 					$("#verifyPubKey .addressSegWitRedeemScript").val(sw.redeemscript);
 
-					var b32 = coinjs.bech32Address(pubkey);
+					var b32 = coinjs.bech32Address(pubkey,  $("#coinjs_pub").val());
 					$("#verifyPubKey .addressBech32").val(b32.address);
 					$("#verifyPubKey .addressBech32RedeemScript").val(b32.redeemscript);
 
