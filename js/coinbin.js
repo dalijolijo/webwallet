@@ -2,12 +2,12 @@ $(document).ready(function() {
 
 	/* open wallet code */
 
-	var explorer_tx = "https://chainz.cryptoid.info/grs/tx.dws?"
-	var explorer_addr = "https://chainz.cryptoid.info/grs/address.dws?"
-	var explorer_block = "https://chainz.cryptoid.info/grs/block.dws?"
-	var test_explorer_tx = "https://chainz.cryptoid.info/grs-test/tx.dws?"
-	var test_explorer_addr = "https://chainz.cryptoid.info/grs-test/address.dws?"
-	var test_explorer_block = "https://chainz.cryptoid.info/grs-test/block.dws?"
+	var explorer_tx = "https://chainz.cryptoid.info/btx/tx.dws?"
+	var explorer_addr = "https://chainz.cryptoid.info/btx/address.dws?"
+	var explorer_block = "https://chainz.cryptoid.info/btx/block.dws?"
+	var test_explorer_tx = "https://chainz.cryptoid.info/btx-test/tx.dws?"
+	var test_explorer_addr = "https://chainz.cryptoid.info/btx-test/address.dws?"
+	var test_explorer_block = "https://chainz.cryptoid.info/btx-test/block.dws?"
 
 	var wallet_timer = false;
 
@@ -58,7 +58,7 @@ $(document).ready(function() {
 
 					$("#walletQrCode").html("");
 					var qrcode = new QRCode("walletQrCode");
-					qrcode.makeCode("groestlcoin:"+address);
+					qrcode.makeCode("bitcore:"+address);
 
 					$("#walletKeys .privkey").val(wif);
 					$("#walletKeys .pubkey").val(pubkey);
@@ -95,7 +95,7 @@ $(document).ready(function() {
 
 		$("#walletQrCode").html("");
 		var qrcode = new QRCode("walletQrCode");
-		qrcode.makeCode("groestlcoin:");
+		qrcode.makeCode("bitcore:");
 
 		$("#walletKeys .privkey").val("");
 		$("#walletKeys .pubkey").val("");
@@ -218,7 +218,7 @@ $(document).ready(function() {
 
 				}, signed);
 			} else {
-				$("#walletSendConfirmStatus").removeClass("hidden").addClass('alert-danger').html("You have a confirmed balance of "+((data.value/100000000).toFixed(8) * 1)+" GRS unable to send "+total+" GRS").fadeOut().fadeIn();
+				$("#walletSendConfirmStatus").removeClass("hidden").addClass('alert-danger').html("You have a confirmed balance of "+((data.value/100000000).toFixed(8) * 1)+" BTX unable to send "+total+" BTX").fadeOut().fadeIn();
 				thisbtn.attr('disabled',false);
 			}
 
@@ -309,12 +309,12 @@ $(document).ready(function() {
 		coinjs.addressBalance($("#walletAddress").html(),function(data){
 			if($(data).find("result").text()==1){
 				var v = $(data).find("balance").text()/*/100000000*/;
-				$("#walletBalance").html(v+" GRS").attr('rel',v).fadeOut().fadeIn();
+				$("#walletBalance").html(v+" BTX").attr('rel',v).fadeOut().fadeIn();
 			} else {
-				$("#walletBalance").html("0.00 GRS").attr('rel',v).fadeOut().fadeIn();
+				$("#walletBalance").html("0.00 BTX").attr('rel',v).fadeOut().fadeIn();
 			}
 			var v = data/*/100000000*/;
-			$("#walletBalance").html(v+" GRS").attr('rel',v).fadeOut().fadeIn();
+			$("#walletBalance").html(v+" BTX").attr('rel',v).fadeOut().fadeIn();
 			$("#walletLoader").addClass("hidden");
 		});
 	}
@@ -847,7 +847,7 @@ $(document).ready(function() {
 
 			QCodeDecoder().decodeFromCamera(document.getElementById('videoReader'), function(er,data){
 				if(!er){
-					var match = data.match(/^groestlcoin\:([13][a-z0-9]{26,33})/i);
+					var match = data.match(/^bitcore\:([13][a-z0-9]{26,33})/i);
 					var result = match ? match[1] : data;
 					$(""+$("#qrcode-scanner-callback-to").html()).val(result);
 					$("#qrScanClose").click();
@@ -886,15 +886,11 @@ $(document).ready(function() {
 
 
 		if(host=='chainz.cryptoid.info') {
-            listUnspentChainz_Groestlcoin(redeem, false);
-		} else if(host=='chainz.cryptoid.info-test') {
-            listUnspentChainz_Groestlcoin(redeem, true);
-		} else if(host=='groestlsight.groestlcoin.org') {
-            listUnspentGroestlsight_Groestlcoin(redeem, false);
-		} else if(host=='groestlsight-test.groestlcoin.org') {
-            listUnspentGroestlsight_Groestlcoin(redeem, true);
+            listUnspentChainz_Bitcore(redeem, false);
+		} else if(host=='insight.bitcore.cc') {
+            listUnspentBitcoresight_Bitcore(redeem, false);
 		} else {
-			listUnspentChainz_Groestlcoin(redeem, false);
+			listUnspentChainz_Bitcore(redeem, false);
 		}
 
 		if($("#redeemFromStatus").hasClass("hidden")) {
@@ -1100,10 +1096,9 @@ $(document).ready(function() {
 
 	}
 
-	/* retrieve unspent data from chain.so for dogecoin */
-	function listUnspentChainz_Groestlcoin(redeem, testnet){
-		var explorerUrl = testnet ? "https://chainz.cryptoid.info/grs-test/api.dws?q=unspent&key=" :
-							"https://chainz.cryptoid.info/grs/api.dws?q=unspent&key="
+	/* retrieve unspent data from chain.so for bitcore */
+	function listUnspentChainz_Bitcore(redeem, testnet){
+		var explorerUrl = "https://chainz.cryptoid.info/btx/api.dws?q=unspent&key="
 		$.ajax ({
 			type: "GET",
             url: explorerUrl+coinjs.apikey+"&active="+redeem.addr,
@@ -1137,10 +1132,9 @@ $(document).ready(function() {
 		});
 	}
 
-		/* retrieve unspent data from InsightAPI for groestlcoin */
-	function listUnspentGroestlsight_Groestlcoin(redeem, testnet){
-		var unspentUrl = testnet ? "https://groestlsight-test.groestlcoin.org/api/addr/" :
-			"https://groestlsight.groestlcoin.org/api/addr/"
+		/* retrieve unspent data from InsightAPI for bitcore */
+	function listUnspentBitcoresight_Bitcore(redeem, testnet){
+		var unspentUrl = "https://insight.bitcore.cc/api/addr/"
 		$.ajax ({
 			type: "GET",
 			url: unspentUrl+redeem.addr+"/utxo",
@@ -1156,7 +1150,7 @@ $(document).ready(function() {
 						var tx = ((o.txid).match(/.{1,2}/g).reverse()).join("")+'';
 						var n = o.vout;
 						var script = (redeem.redeemscript==true) ? (redeem.from == "bech32" ? coinjs.bech32redeemscript($("#redeemFrom").val()) :  $("#redeemFrom").val()) : o.scriptPubKey;
-						var amount = (o.satoshis /100000000).toFixed(8);
+						var amount = (o.value /100000000).toFixed(8);
 						addOutput(tx, n, script, amount);
 					}
 				} else {
@@ -1227,7 +1221,7 @@ $(document).ready(function() {
 
 	$("#rawSubmitBtn").click(function(){
 		//rawSubmitDefault(this);
-		rawSubmitGroestlsight_Groestlcoin(this);
+		rawSubmitBitcoresight_Bitcore(this);
 	});
 
 	// broadcast transaction vai coinbin (default)
@@ -1314,9 +1308,8 @@ $(document).ready(function() {
 		});
 	}
 
-    function rawSubmitChainz_Groestlcoin(thisbtn, testnet){
-		broadcastUrl = testnet ? "https://chainz.cryptoid.info/grs-test/api.dws?q=pushtx&key=" :
-			"https://chainz.cryptoid.info/grs/api.dws?q=pushtx&key="
+    function rawSubmitChainz_Bitcore(thisbtn, testnet){
+		broadcastUrl = "https://chainz.cryptoid.info/btx/api.dws?q=pushtx&key="
 		$(thisbtn).val('Please wait, loading...').attr('disabled',true);
 		$.ajax ({
 			type: "POST",
@@ -1345,9 +1338,8 @@ $(document).ready(function() {
 		});
 	}
 
-    function rawSubmitGroestlsight_Groestlcoin(thisbtn, testnet){
-		broadcastUrl = testnet ? "http://groestlsight-test.groestlcoin.org/api/tx/send" :
-			"https://groestlsight.groestlcoin.org/api/tx/send"
+    function rawSubmitBitcoresight_Bitcore(thisbtn, testnet){
+		broadcastUrl = "https://insight.bitcore.cc/api/tx/send"
         $(thisbtn).val('Please wait, loading...').attr('disabled',true);
         $.ajax ({
             type: "POST",
@@ -1375,39 +1367,6 @@ $(document).ready(function() {
             }
         });
     }
-
-	// broadcast transaction via chain.so for dogecoin
-	function rawSubmitchainso_dogecoin(thisbtn){
-		$(thisbtn).val('Please wait, loading...').attr('disabled',true);
-                $.ajax ({
-                        type: "POST",
-                        url: "https://chain.so/api/v2/send_tx/DOGE",
-			data: {"tx_hex":$("#rawTransaction").val()},
-                        dataType: "json",
-                        error: function(data) {
-				var obj = $.parseJSON(data.responseText);
-				var r = ' ';
-				r += (obj.data.tx_hex) ? ' '+obj.data.tx_hex : '';
-				r = (r!='') ? r : ' Failed to broadcast'; // build response
-				$("#rawTransactionStatus").addClass('alert-danger').removeClass('alert-success').removeClass("hidden").html(r).prepend('<span class="glyphicon glyphicon-exclamation-sign"></span>');
-			//	console.error(JSON.stringify(data, null, 4));
-                        },
-                        success: function(data) {
-			//	console.info(JSON.stringify(data, null, 4));
-				if((data.status && data.data) && data.status=='success'){
-					$("#rawTransactionStatus").addClass('alert-success').removeClass('alert-danger').removeClass("hidden").html(' Txid: ' + data.data.txid);
-				} else {
-					$("#rawTransactionStatus").addClass('alert-danger').removeClass('alert-success').removeClass("hidden").html(' Unexpected error, please try again').prepend('<span class="glyphicon glyphicon-exclamation-sign"></span>');
-				}
-			},
-			complete: function(data, status) {
-				$("#rawTransactionStatus").fadeOut().fadeIn();
-				$(thisbtn).val('Submit').attr('disabled',false);
-                        }
-                });
-	}
-
-
 
 
 	/* verify script code */
@@ -1773,7 +1732,7 @@ $(document).ready(function() {
 			}
 		} else {
 			var qrcode = new QRCode("qrcode");
-			qrstr = "groestlcoin:"+$('.address',thisbtn).val();
+			qrstr = "bitcore:"+$('.address',thisbtn).val();
 		}
 
 		if(qrstr){
@@ -1902,26 +1861,18 @@ $(document).ready(function() {
 	function configureBroadcast(){
 		var host = $("#coinjs_broadcast option:selected").val();
 		$("#rawSubmitBtn").unbind("");
-		if(host=="groestlsight.groestlcoin.org") {
+		if(host=="insight.bitcore.cc") {
 			$("#rawSubmitBtn").click(function(){
-                rawSubmitGroestlsight_Groestlcoin(this, false);
-			});
-		} else if(host=="groestlsight-test.groestlcoin.org") {
-			$("#rawSubmitBtn").click(function(){
-                rawSubmitGroestlsight_Groestlcoin(this, true);
+                rawSubmitBitcoresight_Bitcore(this, false);
 			});
 		} else if(host=="chainz.cryptoid.info") {
 			$("#rawSubmitBtn").click(function(){
-                rawSubmitChainz_Groestlcoin(this, false);
-			});
-		} else if(host=="chainz.cryptoid.info-test") {
-			$("#rawSubmitBtn").click(function(){
-                rawSubmitChainz_Groestlcoin(this, true);
+                rawSubmitChainz_Bitcore(this, false);
 			});
 		} else {
 			$("#rawSubmitBtn").click(function(){
 				//rawSubmitDefault(this); // revert to default
-				rawSubmitGroestlsight_Groestlcoin(this);
+				rawSubmitBitcoresight_Bitcore(this);
 			});
 		}
 	}
