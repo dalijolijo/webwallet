@@ -13,7 +13,7 @@
 	coinjs.priv = 0x80;
 	coinjs.multisig = 0x7D;
 	coinjs.hdkey = {'prv':0x0488ade4, 'pub':0x0488b21e};
-	coinjs.apikey = "d47da926b82e";
+	coinjs.apikey = "c0aedcad2723";
 	coinjs.bech32 = {'charset':'qpzry9x8gf2tvdw0s3jn54khce6mua7l', 'version':0, 'hrp':'btx', 'hrp_test':'tbtx'};
 
 	coinjs.compressed = false;
