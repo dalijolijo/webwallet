@@ -1,6 +1,6 @@
 /*
  Coinjs 0.01 beta by OutCast3k{at}gmail.com and Hash Engineering Solutions{at}gmail.com
- A bitcore framework.
+ A bitsend framework.
 
 */
 
@@ -9,25 +9,22 @@
 	var coinjs = window.coinjs = function () { };
 
 	/* public vars */
-	coinjs.pub = 0x03;
-	coinjs.priv = 0x80;
-	coinjs.multisig = 0x7D;
+	coinjs.pub = 0x66;
+	coinjs.priv = 0xCC;
+	coinjs.multisig = 0x05;
 	coinjs.hdkey = {'prv':0x0488ade4, 'pub':0x0488b21e};
 	coinjs.apikey = "c0aedcad2723";
-	coinjs.bech32 = {'charset':'qpzry9x8gf2tvdw0s3jn54khce6mua7l', 'version':0, 'hrp':'btx', 'hrp_test':'tbtx'};
+	coinjs.bech32 = {'charset':'qpzry9x8gf2tvdw0s3jn54khce6mua7l', 'version':0, 'hrp':'bsd', 'hrp_test':'tbsd'}; //not supported
 
 	coinjs.compressed = false;
 
 	/* other vars */
-	coinjs.developer = '2HTtYsRuCzDSiw1q4PjL131AF6LDnC2jBt'; // bitcore
+	coinjs.developer = 'TODO'; // bitsend
 
 	/* bit(coinb.in) api vars */
-	coinjs.host = 'https://insight.bitcore.cc/api/';
+	coinjs.host = 'https://chainz.cryptoid.info/bsd/api.dws?key=';
 	coinjs.uid = '1';
 	coinjs.key = '12345678901234567890123456789012';
-
-	coinjs.host2 = 'https://chainz.cryptoid.info/btx/api.dws?key=';
-	coinjs.key2 = '12345678901234567890123456789012';
 	/* start of address functions */
 
 	/* generate a private and public keypair, with address and WIF address */
@@ -335,7 +332,7 @@
 
 	/* retreive the balance from a given address */
 	coinjs.addressBalance = function(address, callback){
-		coinjs.ajax(($("#coinjs_pub").val() == 0x6f ? coinjs.host2_test : coinjs.host2) + coinjs.apikey + '&q=getbalance&a='+address, callback, "GET");
+		coinjs.ajax(($("#coinjs_pub").val() == 0x6f ? coinjs.host_test : coinjs.host) + coinjs.apikey + '&q=getbalance&a='+address, callback, "GET");
 		//coinjs.ajax(($("#coinjs_pub").val() == 0x6f ? coinjs.host_test : coinjs.host) +'addr/'+address+'/balance', callback, "GET");
 		//coinjs.ajax(coinjs.host+'?uid='+coinjs.uid+'&key='+coinjs.key+'&setmodule=addresses&request=bal&address='+address+'&r='+Math.random(), callback, "GET");
 	}
@@ -482,7 +479,7 @@
 	}
 
 	coinjs.testdeterministicK = function() {
-		// https://github.com/bitpay/bitcore/blob/9a5193d8e94b0bd5b8e7f00038e7c0b935405a03/test/crypto/ecdsa.js
+		// https://github.com/bitpay/bitcoin/blob/9a5193d8e94b0bd5b8e7f00038e7c0b935405a03/test/crypto/ecdsa.js
 		// Line 21 and 22 specify digest hash and privkey for the first 2 test vectors.
 		// Line 96-117 tells expected result.
 
@@ -1052,7 +1049,7 @@
 		/* list unspent transactions */
 		r.listUnspent = function(address, callback) {
 			//coinjs.ajax(coinjs.host+'addr/'+address+'/utxo', callback, "GET");
-			coinjs.ajax(($("#coinjs_pub").val() == 0x6f ?coinjs.host2_test : coinjs.host2)+coinjs.apikey+"&q=unspent&active="+address, callback, "GET");
+			coinjs.ajax(($("#coinjs_pub").val() == 0x6f ?coinjs.host_test : coinjs.host)+coinjs.apikey+"&q=unspent&active="+address, callback, "GET");
 		}
 
 		/* add unspent to transaction */

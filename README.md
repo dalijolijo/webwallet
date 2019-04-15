@@ -1,12 +1,12 @@
-Webwallet (coinbin) with Bitcore support
+Webwallet (coinbin) with Bitsend support
 ========================================
 
-A Open Source Browser Based Bitcore Wallet. Version 1.4 beta
+A Open Source Browser Based Bitsend Wallet. Version 1.4 beta
 
 
-Live version available at http://bitcore.cc/webwallet
+Live version available at http://bitsend.info/webwallet
 
-Github URL: https://github.com/dalijolijo/webwallet
+Github URL: https://github.com/dalijolijo/webwallet/tree/Bitsend
 (a fork of https://github.com/OutCast3k/coinbin/)
 
 Webwallet supports a number of key features such as: 
@@ -24,12 +24,11 @@ Webwallet supports a number of key features such as:
 - Add custom data to transactions with the use of OP_RETURN.
 - Support current Dark Wallet Stealth Address structure (as of version Alpha 7) for outputs.
 - Brain wallet support.
-- Compatible with Bitcore 
+- Compatible with Bitsend
 - Offline qrcode creator and scanning tool
 - HD (bip32) support
 - Replace by fee (RBF) Support
 - Segwit Support
-- Bech32 address support
 - Fee calculator - https://coinb.in/#fees
 
-Donate to 2HTtYsRuCzDSiw1q4PjL131AF6LDnC2jBt !
+Donate to TODO !
