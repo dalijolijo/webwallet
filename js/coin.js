@@ -1,6 +1,6 @@
 /*
  Coinjs 0.01 beta by OutCast3k{at}gmail.com and Hash Engineering Solutions{at}gmail.com
- A bitsend framework.
+ A megacoin framework.
 
 */
 
@@ -9,20 +9,20 @@
 	var coinjs = window.coinjs = function () { };
 
 	/* public vars */
-	coinjs.pub = 0x66;
-	coinjs.priv = 0xCC;
+	coinjs.pub = 0x32;
+	coinjs.priv = 0xB2;
 	coinjs.multisig = 0x05;
 	coinjs.hdkey = {'prv':0x0488ade4, 'pub':0x0488b21e};
 	coinjs.apikey = "c0aedcad2723";
-	coinjs.bech32 = {'charset':'qpzry9x8gf2tvdw0s3jn54khce6mua7l', 'version':0, 'hrp':'bsd', 'hrp_test':'tbsd'}; //not supported
+	coinjs.bech32 = {'charset':'qpzry9x8gf2tvdw0s3jn54khce6mua7l', 'version':0, 'hrp':'mec', 'hrp_test':'tmec'}; //not supported
 
 	coinjs.compressed = false;
 
 	/* other vars */
-	coinjs.developer = 'TODO'; // bitsend
+	coinjs.developer = 'TODO'; // megacoin
 
 	/* bit(coinb.in) api vars */
-	coinjs.host = 'https://chainz.cryptoid.info/bsd/api.dws?key=';
+	coinjs.host = 'https://chainz.cryptoid.info/mec/api.dws?key=';
 	coinjs.uid = '1';
 	coinjs.key = '12345678901234567890123456789012';
 	/* start of address functions */

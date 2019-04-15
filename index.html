@@ -2,11 +2,11 @@
 <html lang="en">
 	<head>
 
-		<title>Webwallet by Bitsend</title>
+		<title>Webwallet by Megacoin</title>
 
         <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-		<meta name="keywords" content="bitsend, wallet, multisig, multisignature, address, browser, javascript, js, broadcast, transaction, verify, decode" />
-		<meta name="description" content="A Bitsend Wallet written in Javascript. Supports Multisig, Custom Transactions, nLockTime and more!" />
+		<meta name="keywords" content="megacoin, wallet, multisig, multisignature, address, browser, javascript, js, broadcast, transaction, verify, decode" />
+		<meta name="description" content="A Megacoin Wallet written in Javascript. Supports Multisig, Custom Transactions, nLockTime and more!" />
 
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +19,6 @@
 		<script type="text/javascript" src="js/moment.min.js"></script>
 		<script type="text/javascript" src="js/transition.js"></script>
 		<script type="text/javascript" src="js/collapse.js"></script>
-                <script type="text/javascript" src="js/bsd.js"></script>
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
 
@@ -51,7 +50,7 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-						<a href="#home" class="navbar-brand" id="homeBtn"><img src="images/bsd.png" style="height:25px;margin-top:-5px"></a>
+						<a href="#home" class="navbar-brand" id="homeBtn"><img src="images/mec.png" style="height:30px;margin-top:-5px"></a>
 					</div>
 					<div class="collapse navbar-collapse">
 						<ul class="nav navbar-nav">
@@ -92,8 +91,8 @@
 						</div>
 
 						<div class="jumbotron">
-							<h1>Bitsend. It's your money!</h1>
-							<p>Be your own bank, take control of your own money and start using Bitsend today!</p>
+							<h1>Megacoin. It's your money!</h1>
+							<p>Be your own bank, take control of your own money and start using Megacoin today!</p>
 							<p><a class="btn btn-primary btn-lg" href="#about" role="button">Learn more &raquo;</a></p>
 						</div>
 
@@ -107,7 +106,7 @@
 
 							<div class="col-md-4">
 								<h3><span class="glyphicon glyphicon-fullscreen"></span> MultiSig</h3>
-								<p>We offer a fully transparent <a href="#newMultiSig">multisig</a> solution which works seamlessly offline and with other bitsend clients.</p>
+								<p>We offer a fully transparent <a href="#newMultiSig">multisig</a> solution which works seamlessly offline and with other megacoin clients.</p>
 							</div>
 
 							<div class="col-md-4">
@@ -129,7 +128,7 @@
 
 							<div class="col-md-4">
 								<h3><span class="glyphicon glyphicon-wrench"></span>  Development</h3>
-								<p>Use what we've built to write your own projects or contribute at <a href="https://github.com/dalijolijo/webwallet/tree/Bitsend">github</a>.</p>
+								<p>Use what we've built to write your own projects or contribute at <a href="https://github.com/dalijolijo/webwallet/tree/Megacoin">github</a>.</p>
 							</div>
 						</div>
 					</div>
@@ -137,7 +136,7 @@
 					<div class="tab-pane tab-content" id="wallet">
 						<div class="row">
 							<div class="col-md-12">
-								<h2>Open Wallet <small> browser based bitsend wallet</small></h2>
+								<h2>Open Wallet <small> browser based megacoin wallet</small></h2>
 								<div id="openLogin">
 									<form class="form-signin" role="form" action="javascript:;">
 
@@ -179,9 +178,8 @@
 												<span id="walletAddress"></span> 
 
 												<div class="btn-group">
-													<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" id="walletToBtn">SegWit <span class="caret"></span></button>
+													<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" id="walletToBtn">Legacy <span class="caret"></span></button>
 													<ul class="dropdown-menu">
-														<li><a href="javascript:;" id="walletToSegWit">SegWit</a></li>
 														<li><a href="javascript:;" id="walletToLegacy">Legacy</a></li>
 													</ul>
 												</div>
@@ -189,7 +187,7 @@
 											<br>
 											<div style="text-align:center; width:350px;">
 												<ul class="nav nav-pills" role="tablist">
-													<li role="presentation" class="active"><a href="javascript:;" id="walletBalance">0.00 BSD</a></li>
+													<li role="presentation" class="active"><a href="javascript:;" id="walletBalance">0.00 MEC</a></li>
 													<li role="presentation"><a href="javascript:;" id="walletShowSpend">Spend</a></li>
 													<li role="presentation"><a id="walletHistory" href="javascript:;" target="_blank">History</a></li>
 													<li role="presentation"><a href="javascript:;" id="walletShowKeys">Keys</a></li>
@@ -273,7 +271,7 @@
 
 					<div class="tab-pane tab-content" id="newAddress">
 						<h2>New Address <small>create a new address</small></h2>
-						<p>Any keys used you will need to manually store safely as they will be needed later to redeem the bitsends.</p>
+						<p>Any keys used you will need to manually store safely as they will be needed later to redeem the megacoins.</p>
 						<label>Address (Share)</label>
 
 						<div class="input-group">
@@ -338,7 +336,7 @@
 						<div class="row">
 
 							<div class="col-md-8">
-								<p>Public keys can be <a href="#newAddress">generated in your browser</a> or from your bitsend client</a>.</p>
+								<p>Public keys can be <a href="#newAddress">generated in your browser</a> or from your megacoin client</a>.</p>
 								<p>Enter the public keys of all the participants, to create a <a href="https://en.bitcoin.it/wiki/Address#Multi-signature_addresses" target="_blank">multi signature address</a>. Maximum of 15 allowed. Compressed and uncompressed public keys are accepted.</p>
 							</div>
 
@@ -401,7 +399,7 @@
 								</div>
 							</div>
 							<label>Redeem Script</label>
-							<p>This script should be <i>saved and should be shared with all the participants before a payment is made</i>, so they may validate the authenticity of the address, it will also be used later to release the bitsends.</p>
+							<p>This script should be <i>saved and should be shared with all the participants before a payment is made</i>, so they may validate the authenticity of the address, it will also be used later to release the megacoins.</p>
 							<textarea class="form-control script" style="height:160px" readonly></textarea>
 							<label>Shareable URL</label>
 							<input type="text" class="scriptUrl form-control" readonly>
@@ -418,7 +416,7 @@
 
                             <div class="col-md-11">
 				<p>Use <i><a href="https://github.com/bitcoin/bips/blob/master/bip-0065.mediawiki" target="_blank">OP_CHECKLOCKTIMEVERIFY</a></i> (OP_HODL) to create a time locked address where the funds are unspendable until a set date and time has passed.</p>
-                                <p>Public keys can be <a href="#newAddress">generated in your browser</a> or from your bitsend client</a>.</p>
+                                <p>Public keys can be <a href="#newAddress">generated in your browser</a> or from your megacoin client</a>.</p>
                                 <p>Enter the public key that will be able to unlock the funds after the a certain date.
                             </div>
 
@@ -478,7 +476,7 @@
                                 </div>
                             </div>
                             <label>Redeem Script</label>
-                            <p>This script should be <i>saved and should be shared with all the participants before a payment is made</i>, so they may validate the authenticity of the address, it will also be used later to release the bitsends.</p>
+                            <p>This script should be <i>saved and should be shared with all the participants before a payment is made</i>, so they may validate the authenticity of the address, it will also be used later to release the megacoins.</p>
                             <textarea class="form-control script" style="height:160px" readonly></textarea>
                             <label>Shareable URL</label>
                             <input type="text" class="scriptUrl form-control" readonly>
@@ -1232,9 +1230,9 @@
 					</div>
 
 					<div class="tab-pane tab-content" id="broadcast">
-						<h2>Broadcast Transaction <small>into the bitsend network</small></h2>
+						<h2>Broadcast Transaction <small>into the megacoin network</small></h2>
 						<a href="#settings" style="float:right;"><span class="glyphicon glyphicon-cog"></span></a>
-						<p>Enter your hex encoded bitsend transaction</p>
+						<p>Enter your hex encoded megacoin transaction</p>
 						<textarea class="form-control" style="height:125px" id="rawTransaction"></textarea>
 						<br>
 						<div id="rawTransactionStatus" class="alert hidden">
@@ -1250,18 +1248,18 @@
 					</div>
 
 					<div class="tab-pane tab-content" id="about">
-						<h2>About <small>open source Bitsend webwallet</small></h2>
+						<h2>About <small>open source Megacoin webwallet</small></h2>
 						<p>Version 1.4</p>
-						<p>Compatible with <a href="https://bitsend.info">Bitsend</a></p>
-						<p>Github <a href="https://github.com/LIMXTEC/Bitsend">https://github.com/LIMXTEC/Bitsend</a></p>
-						<h3>What is Bitsend?</h3>
-						<p>Bitsend is a type of digital currency in which encryption techniques are used to regulate the generation of units of currency and verify the transfer of funds, operating independently of a central bank.</p>
+						<p>Compatible with <a href="https://megacoin.eu">Megacoin</a></p>
+						<p>Github <a href="https://github.com/LIMXTEC/Megacoin">https://github.com/LIMXTEC/Megacoin</a></p>
+						<h3>What is Megacoin?</h3>
+						<p>Megacoin is a type of digital currency in which encryption techniques are used to regulate the generation of units of currency and verify the transfer of funds, operating independently of a central bank.</p>
 						<h3>Information</h3>
 						<p>Webwallet is a free and open source project released under the MIT license</p>
 						<h3>Privacy</h3>
-						<p>Webwallet believes strongly in privacy, the site does not collect and store IP or transaction data via our servers nor do we store your bitsends private key. We do route traffic via cloudflare using an SSL certificate.</p>
+						<p>Webwallet believes strongly in privacy, the site does not collect and store IP or transaction data via our servers nor do we store your megacoins private key. We do route traffic via cloudflare using an SSL certificate.</p>
 						<h3>Donate</h3>
-						<p>Please donate to <a href="bitsend:TODO">TODO</a> if you found this project useful!</p>
+						<p>Please donate to <a href="megacoin:TODO">TODO</a> if you found this project useful!</p>
 					</div>
 
 					<div class="tab-pane tab-content" id="settings">
@@ -1273,7 +1271,7 @@
 								<b>Network</b>: <br>
 								<p class="text-muted">Select which network you'd like to use for key pair generation.</p>
 								<select class="form-control" id="coinjs_coin">
-                                    <option value="bitcoin_mainnet" rel="0x24;0x80;0x05;0x488b21e;0x488ade4;chainz.cryptoid.info;chainz.cryptoid.info">Bitsend (MainNet)</option>
+                                    <option value="bitcoin_mainnet" rel="0x24;0x80;0x05;0x488b21e;0x488ade4;chainz.cryptoid.info;chainz.cryptoid.info">Megacoin (MainNet)</option>
 
 									<!--option value="custom" rel="0x00;0x80;0x05;0x488b21e;0x488ade4;false;false">Custom</option-->
 								</select>
@@ -1353,7 +1351,7 @@
 					</div>
 
 					<br>
-					<p class="text-muted">This page uses javascript to generate your addresses and sign your transactions within your browser, this means we <i>never</i> receive your private keys, this can be independently verified by reviewing the source code on <a href="https://github.com/dalijolijo/webwallet/tree/Bitsend" target="_blank">github</a>. 
+					<p class="text-muted">This page uses javascript to generate your addresses and sign your transactions within your browser, this means we <i>never</i> receive your private keys, this can be independently verified by reviewing the source code on <a href="https://github.com/dalijolijo/webwallet/tree/Megacoin" target="_blank">github</a>. 
 					<br>
 
 				</div>
@@ -1377,7 +1375,7 @@
 				</div>
 
 				<div class="modal-body">
-					<p>You are about to send a transaction to the value of <span id="spendAmount">0.00</span> BSD</p>
+					<p>You are about to send a transaction to the value of <span id="spendAmount">0.00</span> MEC</p>
 
 					<br>
 					<div id="walletSendConfirmStatus" class="alert alert-danger hidden"></div>
@@ -1510,7 +1508,7 @@
 				</div>
 
 				<div class="modal-body">
-					Please be aware that you have created a transaction with what seems to be a very high fee of <span id="modalWarningFeeAmount"></span> BSD!
+					Please be aware that you have created a transaction with what seems to be a very high fee of <span id="modalWarningFeeAmount"></span> MEC!
 				</div>
 
 				<div class="modal-footer">
