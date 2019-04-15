@@ -1030,73 +1030,7 @@ $(document).ready(function() {
 	}
 
 
-	/* retrieve unspent data from chainso for litecoin */
-	function listUnspentChainso_Litecoin(redeem){
-		$.ajax ({
-			type: "GET",
-			url: "https://chain.so/api/v2/get_tx_unspent/ltc/"+redeem.addr,
-			dataType: "json",
-			error: function(data) {
-				$("#redeemFromStatus").removeClass('hidden').html('<span class="glyphicon glyphicon-exclamation-sign"></span> Unexpected error, unable to retrieve unspent outputs!');
-			},
-			success: function(data) {
-				console.log(data);
-				if((data.status && data.data) && data.status=='success'){
-					$("#redeemFromAddress").removeClass('hidden').html('<span class="glyphicon glyphicon-info-sign"></span> Retrieved unspent inputs from address <a href="'+explorer_addr+redeem.addr+'" target="_blank">'+redeem.addr+'</a>');
-					for(var i in data.data.txs){
-						var o = data.data.txs[i];
-						var tx = ((o.txid).match(/.{1,2}/g).reverse()).join("")+'';
-						var n = o.output_no;
-						var script = (redeem.redeemscript==true) ? redeem.decodedRs : o.script_hex;
-						var amount = o.value;
-						addOutput(tx, n, script, amount);
-					}
-				} else {
-					$("#redeemFromStatus").removeClass('hidden').html('<span class="glyphicon glyphicon-exclamation-sign"></span> Unexpected error, unable to retrieve unspent outputs.');
-				}
-			},
-			complete: function(data, status) {
-				$("#redeemFromBtn").html("Load").attr('disabled',false);
-				totalInputAmount();
-			}
-		});
-	}
-
-
-	/* retrieve unspent data from chain.so for carboncoin */
-	function listUnspentCryptoidinfo_Carboncoin(redeem) {
-
-		$.ajax ({
-			type: "POST",
-			url: "https://coinb.in/api/",
-			data: 'uid='+coinjs.uid+'&key='+coinjs.key+'&setmodule=carboncoin&request=listunspent&address='+redeem.addr,
-			dataType: "xml",
-			error: function() {
-				$("#redeemFromStatus").removeClass('hidden').html('<span class="glyphicon glyphicon-exclamation-sign"></span> Unexpected error, unable to retrieve unspent outputs!');
-			},
-                        success: function(data) {
-				if($(data).find("result").text()==1){
-					$("#redeemFromAddress").removeClass('hidden').html('<span class="glyphicon glyphicon-info-sign"></span> Retrieved unspent inputs from address <a href="'+explorer_addr+redeem.addr+'" target="_blank">'+redeem.addr+'</a>');
-					$.each($(data).find("unspent").children(), function(i,o){
-						var tx = $(o).find("tx_hash").text();
-						var n = $(o).find("tx_output_n").text();
-						var script = (redeem.redeemscript==true) ? redeem.decodedRs : o.script_hex;
-						var amount = (($(o).find("value").text()*1)/100000000).toFixed(8);
-						addOutput(tx, n, script, amount);
-					});
-				} else {
-					$("#redeemFromStatus").removeClass('hidden').html('<span class="glyphicon glyphicon-exclamation-sign"></span> Unexpected error, unable to retrieve unspent outputs.');
-				}
-			},
-			complete: function(data, status) {
-				$("#redeemFromBtn").html("Load").attr('disabled',false);
-				totalInputAmount();
-			}
-		});
-
-	}
-
-	/* retrieve unspent data from chain.so for bitcore */
+	/* retrieve unspent data from chainz.cryptoid.info for bitcore */
 	function listUnspentChainz_Bitcore(redeem, testnet){
 		var explorerUrl = "https://chainz.cryptoid.info/btx/api.dws?q=unspent&key="
 		$.ajax ({
@@ -1220,8 +1154,7 @@ $(document).ready(function() {
 	/* broadcast a transaction */
 
 	$("#rawSubmitBtn").click(function(){
-		//rawSubmitDefault(this);
-		rawSubmitBitcoresight_Bitcore(this);
+		rawSubmitBitcoresight_Bitcore(this, false);
 	});
 
 	// broadcast transaction vai coinbin (default)
@@ -1252,61 +1185,6 @@ $(document).ready(function() {
 		});
 	}
 
-	// broadcast transaction via cryptoid
-	function rawSubmitcryptoid_Carboncoin(thisbtn) {
-		$(thisbtn).val('Please wait, loading...').attr('disabled',true);
-		$.ajax ({
-			type: "POST",
-			url: +'?uid='+coinjs.uid+'&key='+coinjs.key+'&setmodule=carboncoin&request=sendrawtransaction',
-			data: {'rawtx':$("#rawTransaction").val()},
-			dataType: "xml",
-			error: function(data) {
-				$("#rawTransactionStatus").addClass('alert-danger').removeClass('alert-success').removeClass("hidden").html(" There was an error submitting your request, please try again").prepend('<span class="glyphicon glyphicon-exclamation-sign"></span>');
-			},
-                        success: function(data) {
-				$("#rawTransactionStatus").html(unescape($(data).find("response").text()).replace(/\+/g,' ')).removeClass('hidden');
-				if($(data).find("result").text()==1){
-					$("#rawTransactionStatus").addClass('alert-success').removeClass('alert-danger');
-					$("#rawTransactionStatus").html('txid: '+$(data).find("txid").text());
-				} else {
-					$("#rawTransactionStatus").addClass('alert-danger').removeClass('alert-success').prepend('<span class="glyphicon glyphicon-exclamation-sign"></span> ');
-				}
-			},
-			complete: function(data, status) {
-				$("#rawTransactionStatus").fadeOut().fadeIn();
-				$(thisbtn).val('Submit').attr('disabled',false);
-			}
-		});
-	}
-
-	// broadcast transaction via chain.so (mainnet)
-	function rawSubmitChainso_BitcoinMainnet(thisbtn){
-		$(thisbtn).val('Please wait, loading...').attr('disabled',true);
-		$.ajax ({
-			type: "POST",
-			url: "https://chain.so/api/v2/send_tx/BTC/",
-			data: {"tx_hex":$("#rawTransaction").val()},
-			dataType: "json",
-			error: function(data) {
-				var obj = $.parseJSON(data.responseText);
-				var r = ' ';
-				r += (obj.data.tx_hex) ? obj.data.tx_hex : '';
-				r = (r!='') ? r : ' Failed to broadcast'; // build response
-				$("#rawTransactionStatus").addClass('alert-danger').removeClass('alert-success').removeClass("hidden").html(r).prepend('<span class="glyphicon glyphicon-exclamation-sign"></span>');
-			},
-                        success: function(data) {
-				if(data.status && data.data.txid){
-					$("#rawTransactionStatus").addClass('alert-success').removeClass('alert-danger').removeClass("hidden").html(' Txid: '+data.data.txid);
-				} else {
-					$("#rawTransactionStatus").addClass('alert-danger').removeClass('alert-success').removeClass("hidden").html(' Unexpected error, please try again').prepend('<span class="glyphicon glyphicon-exclamation-sign"></span>');
-				}
-			},
-			complete: function(data, status) {
-				$("#rawTransactionStatus").fadeOut().fadeIn();
-				$(thisbtn).val('Submit').attr('disabled',false);
-			}
-		});
-	}
 
     function rawSubmitChainz_Bitcore(thisbtn, testnet){
 		broadcastUrl = "https://chainz.cryptoid.info/btx/api.dws?q=pushtx&key="
@@ -1338,36 +1216,35 @@ $(document).ready(function() {
 		});
 	}
 
-    function rawSubmitBitcoresight_Bitcore(thisbtn, testnet){
+	function rawSubmitBitcoresight_Bitcore(thisbtn, testnet){
 		broadcastUrl = "https://insight.bitcore.cc/api/tx/send"
-        $(thisbtn).val('Please wait, loading...').attr('disabled',true);
-        $.ajax ({
-            type: "POST",
-            url: broadcastUrl,
-            data: "rawtx="+$("#rawTransaction").val(),
-            dataType: "json",
-            error: function(data, status, error) {
-                var obj = data.responseText;
-                var r = ' ';
-                r += (data.responseText.length) ? data.responseText : '';
-                r = (r!=' ') ? r : ' Failed to broadcast'; // build response
-                $("#rawTransactionStatus").addClass('alert-danger').removeClass('alert-success').removeClass("hidden").html(r).prepend('<span class="glyphicon glyphicon-exclamation-sign"></span>');
-            },
-            success: function(data) {
-                //var obj = $.parseJSON(data.responseText);
-                if(data.txid){
-                    $("#rawTransactionStatus").addClass('alert-success').removeClass('alert-danger').removeClass("hidden").html(' Txid: '+data.txid);
-                } else {
-                    $("#rawTransactionStatus").addClass('alert-danger').removeClass('alert-success').removeClass("hidden").html(' Unexpected error, please try again').prepend('<span class="glyphicon glyphicon-exclamation-sign"></span>');
-                }
-            },
-            complete: function(data, status) {
-                $("#rawTransactionStatus").fadeOut().fadeIn();
-                $(thisbtn).val('Submit').attr('disabled',false);
-            }
-        });
-    }
-
+	        $(thisbtn).val('Please wait, loading...').attr('disabled',true);
+	        $.ajax ({
+			type: "POST",
+			url: broadcastUrl,
+			data: {'rawtx':$("#rawTransaction").val()},
+			dataType: "json",
+			error: function(data, status, error) {
+				var obj = data.responseText;
+				var r = ' ';
+				r += (data.responseText.length) ? data.responseText : '';
+				r = (r!=' ') ? r : ' Failed to broadcast'; // build response
+				$("#rawTransactionStatus").addClass('alert-danger').removeClass('alert-success').removeClass("hidden").html(r).prepend('<span class="glyphicon glyphicon-exclamation-sign"></span>');
+			},
+			success: function(data) {
+			//var obj = $.parseJSON(data.responseText);
+				if(data.txid){
+					$("#rawTransactionStatus").addClass('alert-success').removeClass('alert-danger').removeClass("hidden").html(' Txid: '+data.txid);
+				} else {
+					$("#rawTransactionStatus").addClass('alert-danger').removeClass('alert-success').removeClass("hidden").html(' Unexpected error, please try again').prepend('<span class="glyphicon glyphicon-exclamation-sign"></span>');
+				}
+			},
+			complete: function(data, status) {
+				$("#rawTransactionStatus").fadeOut().fadeIn();
+				$(thisbtn).val('Submit').attr('disabled',false);
+			}
+		});
+	}
 
 	/* verify script code */
 
@@ -1871,8 +1748,7 @@ $(document).ready(function() {
 			});
 		} else {
 			$("#rawSubmitBtn").click(function(){
-				//rawSubmitDefault(this); // revert to default
-				rawSubmitBitcoresight_Bitcore(this);
+				rawSubmitBitcoresight_Bitcore(this, false);
 			});
 		}
 	}

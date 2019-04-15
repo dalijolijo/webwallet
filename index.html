@@ -19,7 +19,6 @@
 		<script type="text/javascript" src="js/moment.min.js"></script>
 		<script type="text/javascript" src="js/transition.js"></script>
 		<script type="text/javascript" src="js/collapse.js"></script>
-                <script type="text/javascript" src="js/btx.js"></script>
 		<script type="text/javascript" src="js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
 
@@ -162,7 +161,6 @@
 													<label><input type="radio" id="walletSegwitp2sh" class="walletSegwitType" name="walletSegWitType" value="p2sh" checked> p2sh address</label> <br>
 													<label><input type="radio" id="walletSegwitBech32" class="walletSegwitType" name="walletSegWitType" value="bech32"> bech32 address</label>
 												</p>
-
 												<label>Enable Replace by Fee (RBF)</label>
 												<p class="checkbox">
 													<label><input type="checkbox" id="walletRBF" class="checkbox-inline" checked> Enable RBF on all transactions, allowing you to manually raise the transaction fee later if required. <span class="text-muted"><i>(recommended)</i></span></label></label>
@@ -189,9 +187,9 @@
 												<div class="btn-group">
 													<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" id="walletToBtn">SegWit <span class="caret"></span></button>
 													<ul class="dropdown-menu">
+														<li><a href="javascript:;" id="walletToLegacy">Legacy</a></li>
 														<li><a href="javascript:;" id="walletToSegWit">SegWit</a></li>
 														<li><a href="javascript:;" id="walletToSegWitBech32">SegWit/Bech32</a></li>
-														<li><a href="javascript:;" id="walletToLegacy">Legacy</a></li>
 													</ul>
 												</div>
 											</div>

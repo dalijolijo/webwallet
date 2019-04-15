@@ -482,7 +482,7 @@
 	}
 
 	coinjs.testdeterministicK = function() {
-		// https://github.com/bitpay/bitcore/blob/9a5193d8e94b0bd5b8e7f00038e7c0b935405a03/test/crypto/ecdsa.js
+		// https://github.com/bitpay/bitcoin/blob/9a5193d8e94b0bd5b8e7f00038e7c0b935405a03/test/crypto/ecdsa.js
 		// Line 21 and 22 specify digest hash and privkey for the first 2 test vectors.
 		// Line 96-117 tells expected result.
 
