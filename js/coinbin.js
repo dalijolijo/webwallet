@@ -2,12 +2,12 @@ $(document).ready(function() {
 
 	/* open wallet code */
 
-	var explorer_tx = "https://chainz.cryptoid.info/bsd/tx.dws?"
-	var explorer_addr = "https://chainz.cryptoid.info/bsd/address.dws?"
-	var explorer_block = "https://chainz.cryptoid.info/bsd/block.dws?"
-	var test_explorer_tx = "https://chainz.cryptoid.info/bsd-test/tx.dws?"
-	var test_explorer_addr = "https://chainz.cryptoid.info/bsd-test/address.dws?"
-	var test_explorer_block = "https://chainz.cryptoid.info/bsd-test/block.dws?"
+	var explorer_tx = "https://chainz.cryptoid.info/btdx/tx.dws?"
+	var explorer_addr = "https://chainz.cryptoid.info/btdx/address.dws?"
+	var explorer_block = "https://chainz.cryptoid.info/btdx/block.dws?"
+	var test_explorer_tx = "https://chainz.cryptoid.info/btdx-test/tx.dws?"
+	var test_explorer_addr = "https://chainz.cryptoid.info/btdx-test/address.dws?"
+	var test_explorer_block = "https://chainz.cryptoid.info/btdx-test/block.dws?"
 
 	var wallet_timer = false;
 
@@ -58,7 +58,7 @@ $(document).ready(function() {
 
 					$("#walletQrCode").html("");
 					var qrcode = new QRCode("walletQrCode");
-					qrcode.makeCode("bitsend:"+address);
+					qrcode.makeCode("bitcloud:"+address);
 
 					$("#walletKeys .privkey").val(wif);
 					$("#walletKeys .pubkey").val(pubkey);
@@ -95,7 +95,7 @@ $(document).ready(function() {
 
 		$("#walletQrCode").html("");
 		var qrcode = new QRCode("walletQrCode");
-		qrcode.makeCode("bitsend:");
+		qrcode.makeCode("bitcloud:");
 
 		$("#walletKeys .privkey").val("");
 		$("#walletKeys .pubkey").val("");
@@ -218,7 +218,7 @@ $(document).ready(function() {
 
 				}, signed);
 			} else {
-				$("#walletSendConfirmStatus").removeClass("hidden").addClass('alert-danger').html("You have a confirmed balance of "+((data.value/100000000).toFixed(8) * 1)+" BSD unable to send "+total+" BSD").fadeOut().fadeIn();
+				$("#walletSendConfirmStatus").removeClass("hidden").addClass('alert-danger').html("You have a confirmed balance of "+((data.value/100000000).toFixed(8) * 1)+" BTDX unable to send "+total+" BTDX").fadeOut().fadeIn();
 				thisbtn.attr('disabled',false);
 			}
 
@@ -309,12 +309,12 @@ $(document).ready(function() {
 		coinjs.addressBalance($("#walletAddress").html(),function(data){
 			if($(data).find("result").text()==1){
 				var v = $(data).find("balance").text()/*/100000000*/;
-				$("#walletBalance").html(v+" BSD").attr('rel',v).fadeOut().fadeIn();
+				$("#walletBalance").html(v+" BTDX").attr('rel',v).fadeOut().fadeIn();
 			} else {
-				$("#walletBalance").html("0.00 BSD").attr('rel',v).fadeOut().fadeIn();
+				$("#walletBalance").html("0.00 BTDX").attr('rel',v).fadeOut().fadeIn();
 			}
 			var v = data/*/100000000*/;
-			$("#walletBalance").html(v+" BSD").attr('rel',v).fadeOut().fadeIn();
+			$("#walletBalance").html(v+" BTDX").attr('rel',v).fadeOut().fadeIn();
 			$("#walletLoader").addClass("hidden");
 		});
 	}
@@ -847,7 +847,7 @@ $(document).ready(function() {
 
 			QCodeDecoder().decodeFromCamera(document.getElementById('videoReader'), function(er,data){
 				if(!er){
-					var match = data.match(/^bitsend\:([13][a-z0-9]{26,33})/i);
+					var match = data.match(/^bitcloud\:([13][a-z0-9]{26,33})/i);
 					var result = match ? match[1] : data;
 					$(""+$("#qrcode-scanner-callback-to").html()).val(result);
 					$("#qrScanClose").click();
@@ -886,9 +886,9 @@ $(document).ready(function() {
 
 
 		if(host=='chainz.cryptoid.info') {
-            listUnspentChainz_Bitsend(redeem, false);
+            listUnspentChainz_Bitcloud(redeem, false);
 		} else {
-			listUnspentChainz_Bitsend(redeem, false);
+			listUnspentChainz_Bitcloud(redeem, false);
 		}
 
 		if($("#redeemFromStatus").hasClass("hidden")) {
@@ -1028,9 +1028,9 @@ $(document).ready(function() {
 	}
 
 
-	/* retrieve unspent data from chainz.cryptoid.info for bitsend */
-	function listUnspentChainz_Bitsend(redeem, testnet){
-		var explorerUrl = "https://chainz.cryptoid.info/bsd/api.dws?q=unspent&key="
+	/* retrieve unspent data from chainz.cryptoid.info for bitcloud */
+	function listUnspentChainz_Bitcloud(redeem, testnet){
+		var explorerUrl = "https://chainz.cryptoid.info/btdx/api.dws?q=unspent&key="
 		$.ajax ({
 			type: "GET",
             url: explorerUrl+coinjs.apikey+"&active="+redeem.addr,
@@ -1120,7 +1120,7 @@ $(document).ready(function() {
 	/* broadcast a transaction */
 
 	$("#rawSubmitBtn").click(function(){
-		rawSubmitChainz_Bitsend(this);
+		rawSubmitChainz_Bitcloud(this);
 	});
 
 	// broadcast transaction vai coinbin (default)
@@ -1152,8 +1152,8 @@ $(document).ready(function() {
 	}
 
 
-    function rawSubmitChainz_Bitsend(thisbtn, testnet){
-		broadcastUrl = "https://chainz.cryptoid.info/bsd/api.dws?q=pushtx&key="
+    function rawSubmitChainz_Bitcloud(thisbtn, testnet){
+		broadcastUrl = "https://chainz.cryptoid.info/btdx/api.dws?q=pushtx&key="
 		$(thisbtn).val('Please wait, loading...').attr('disabled',true);
 		$.ajax ({
 			type: "POST",
@@ -1546,7 +1546,7 @@ $(document).ready(function() {
 			}
 		} else {
 			var qrcode = new QRCode("qrcode");
-			qrstr = "bitsend:"+$('.address',thisbtn).val();
+			qrstr = "bitcloud:"+$('.address',thisbtn).val();
 		}
 
 		if(qrstr){
@@ -1677,7 +1677,7 @@ $(document).ready(function() {
 		$("#rawSubmitBtn").unbind("");
 		if(host=="chainz.cryptoid.info") {
 			$("#rawSubmitBtn").click(function(){
-				rawSubmitChainz_Bitsend(this, false);
+				rawSubmitChainz_Bitcloud(this, false);
 			});
 		} else {
 			$("#rawSubmitBtn").click(function(){
