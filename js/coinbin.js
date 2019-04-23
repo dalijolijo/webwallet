@@ -39,20 +39,6 @@ $(document).ready(function() {
 					var privkeyaes = CryptoJS.AES.encrypt(keys.wif, pass);
 
 					$("#walletKeys .walletSegWitRS").addClass("hidden");
-					if($("#walletSegwit").is(":checked")){
-						if($("#walletSegwitBech32").is(":checked")){
-							var sw = coinjs.bech32Address(pubkey, $("#coinjs_pub").val());
-							address = sw.address;
-						} else {
-
-							var sw = coinjs.segwitAddress(pubkey);
-							address = sw.address;
-						}
-
-						$("#walletKeys .walletSegWitRS").removeClass("hidden");
-						$("#walletKeys .walletSegWitRS input:text").val(sw.redeemscript);
-					}
-
 					$("#walletAddress").html(address);
 					$("#walletHistory").attr('href',($("#coinjs_pub").val() == 0x6f ? test_explorer_addr:explorer_addr)+address);
 
@@ -103,31 +89,8 @@ $(document).ready(function() {
 		$("#openLoginStatus").html("").hide();
 	});
 
-	$("#walletSegwit").click(function(){
-		if($(this).is(":checked")){
-			$(".walletSegwitType").attr('disabled',false);
-		} else {
-			$(".walletSegwitType").attr('disabled',true);
-		}
-	});
-
-	$("#walletToSegWit").click(function(){
-		$("#walletToBtn").html('SegWit <span class="caret"></span>');
-		$("#walletSegwit")[0].checked = true;
-		$("#walletSegwitp2sh")[0].checked = true;
-		$("#openBtn").click();
-	});
-
-	$("#walletToSegWitBech32").click(function(){
-		$("#walletToBtn").html('Bech32 <span class="caret"></span>');
-		$("#walletSegwit")[0].checked = true;
-		$("#walletSegwitBech32")[0].checked = true;
-		$("#openBtn").click();
-	});
-
 	$("#walletToLegacy").click(function(){
 		$("#walletToBtn").html('Legacy <span class="caret"></span>');
-		$("#walletSegwit")[0].checked = false;
 		$("#openBtn").click();
 	});
 
@@ -165,15 +128,6 @@ $(document).ready(function() {
 		thisbtn.attr('disabled',true);
 
 		var script = false;
-		if($("#walletSegwit").is(":checked")){
-			if($("#walletSegwitBech32").is(":checked")){
-				var sw = coinjs.bech32Address($("#walletKeys .pubkey").val(), $("#coinjs_pub").val());
-			} else {
-				var sw = coinjs.segwitAddress($("#walletKeys .pubkey").val());
-			}
-			script = sw.redeemscript;
-		}
-
 		var sequence = false;
 		if($("#walletRBF").is(":checked")){
 			sequence = 0xffffffff-2;
@@ -721,13 +675,8 @@ $(document).ready(function() {
 		var tx = coinjs.transaction();
 		tx.listUnspent($("#walletAddress").html(), function(data){
 			var inputs = $(data).find("unspent").children().length;
-			if($("#walletSegwit").is(":checked")){
-				$("#fees .txi_segwit").val(inputs);
-				$("#fees .txi_segwit").trigger('input');
-			} else {
-				$("#fees .txi_regular").val(inputs);
-				$("#fees .txi_regular").trigger('input');
-			}
+			$("#fees .txi_regular").val(inputs);
+			$("#fees .txi_regular").trigger('input');
 
 			$.each($("#walletSpendTo .output"), function(i,o){
 				var addr = $('.addressTo',o);
