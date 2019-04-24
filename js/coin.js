@@ -967,7 +967,7 @@
 	coinjs.transaction = function() {
 
 		var r = {};
-		r.version = 1;
+		r.version = 2;
 		r.lock_time = 0;
 		r.ins = [];
 		r.outs = [];
